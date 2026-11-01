@@ -28,10 +28,14 @@ jobs:
           git -C "$sdk" fetch --depth=1 --no-tags origin refs/tags/3.38.1:refs/tags/3.38.1
           test "$(git -C "$sdk" rev-parse HEAD)" = b45fa18946ecc2d9b4009952c636ba7e2ffbb787
           test "$(git -C "$sdk" rev-parse 'refs/tags/3.38.1^{commit}')" = b45fa18946ecc2d9b4009952c636ba7e2ffbb787
+          # Bootstrap once so first-run notices do not contaminate machine output.
+          "$sdk/bin/flutter" --version
           "$sdk/bin/flutter" --version --machine > "$RUNNER_TEMP/flutter-source-version.json"
           python3 - "$RUNNER_TEMP/flutter-source-version.json" <<'PY'
           import json, sys
-          version = json.load(open(sys.argv[1]))
+          report = open(sys.argv[1]).read()
+          # Older SDKs can prefix machine output with their first-run notice.
+          version, _ = json.JSONDecoder().raw_decode(report[report.index('{'):])
           assert version['frameworkVersion'] == '3.38.1', version
           assert version['frameworkRevision'] == 'b45fa18946ecc2d9b4009952c636ba7e2ffbb787', version
           PY

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "version": "1.0.21+28",
+  "version": "1.0.21+29",
   "repository": "Ronik-Development/ronikdrive-client",
-  "tag": "v1.0.21+28",
+  "tag": "v1.0.21+29",
   "files": [
     {
       "path": ".gitattributes",
@@ -13,8 +13,8 @@
     {
       "path": ".github/workflows/client.yml",
       "mode": "100644",
-      "size": 2230,
-      "sha256": "fa350aafe29808cbf101feb51c8d755935c7a378b05f946d6db3973017ef09c4"
+      "size": 2506,
+      "sha256": "9267c45a3f51d6a0b0bda7daacaaf825e9e3f3331bcfc36ac3c724a815aa536c"
     },
     {
       "path": ".gitignore",
@@ -2948,7 +2948,7 @@
       "path": "app_/pubspec.yaml",
       "mode": "100644",
       "size": 6072,
-      "sha256": "d00f8efcb417cd872a66305774e7f4498af7bb1b0c002b2944dbf28f6660de8f"
+      "sha256": "97836107b61997e2f4bc0fc8133011892a449e1ed256ce6b08c351dc77360266"
     },
     {
       "path": "app_/test/account_bound_token_test.dart",
