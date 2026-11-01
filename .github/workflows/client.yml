@@ -25,7 +25,16 @@ jobs:
           git -C "$sdk" remote add origin https://github.com/flutter/flutter.git
           git -C "$sdk" fetch --depth=1 origin b45fa18946ecc2d9b4009952c636ba7e2ffbb787
           git -C "$sdk" checkout --detach b45fa18946ecc2d9b4009952c636ba7e2ffbb787
+          git -C "$sdk" fetch --depth=1 --no-tags origin refs/tags/3.38.1:refs/tags/3.38.1
           test "$(git -C "$sdk" rev-parse HEAD)" = b45fa18946ecc2d9b4009952c636ba7e2ffbb787
+          test "$(git -C "$sdk" rev-parse 'refs/tags/3.38.1^{commit}')" = b45fa18946ecc2d9b4009952c636ba7e2ffbb787
+          "$sdk/bin/flutter" --version --machine > "$RUNNER_TEMP/flutter-source-version.json"
+          python3 - "$RUNNER_TEMP/flutter-source-version.json" <<'PY'
+          import json, sys
+          version = json.load(open(sys.argv[1]))
+          assert version['frameworkVersion'] == '3.38.1', version
+          assert version['frameworkRevision'] == 'b45fa18946ecc2d9b4009952c636ba7e2ffbb787', version
+          PY
           echo "$sdk/bin" >> "$GITHUB_PATH"
       - name: Resolve locked dependencies
         working-directory: app_
