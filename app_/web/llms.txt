@@ -1,0 +1,30 @@
+# RonikCloud
+
+> RonikCloud is a cloud-storage and file-collaboration application with client-side protection for supported content and private workspace labels.
+
+## Product
+
+- [Secure cloud storage](https://ronikcloud.com/secure-cloud-storage): How protected file content, file names, and new folder labels are encrypted on the device before storage, plus recovery and metadata boundaries.
+- [Security whitepaper](https://ronikcloud.com/security-whitepaper): Implementation-derived technical detail covering exact cryptographic parameters, Personal and Business key flows, authorization, service-visible metadata, recovery, verification scope, and explicit non-audit limitations.
+- [Encrypted file sharing](https://ronikcloud.com/encrypted-file-sharing): Password-protected encrypted share copies, encrypted file requests, and collaboration behavior.
+- [For freelancers](https://ronikcloud.com/for-freelancers): Client file collection, delivery, comments, and review workflows.
+- [For small teams](https://ronikcloud.com/for-small-teams): Shared folders, roles, invitations, protected discussion, and external handoffs.
+- [Private cloud backup](https://ronikcloud.com/private-cloud-backup): Protected file-copy workflows, recovery boundaries, and what RonikCloud does not replace.
+- [Secure client file portal](https://ronikcloud.com/secure-client-file-portal): Encrypted collection and handoff workflows without white-label or compliance claims.
+- [Encrypted file requests](https://ronikcloud.com/encrypted-file-request): How owners create bounded requests and contributors encrypt submitted names, content types, and file bodies in the browser.
+- [Google Drive client-side encryption alternative](https://ronikcloud.com/google-drive-client-side-encryption-alternative): An evidence-led comparison guide focused on before-upload protection, encrypted private labels, recovery, migration, and service-visible metadata.
+- [Encrypted WeTransfer alternative](https://ronikcloud.com/encrypted-wetransfer-alternative): Protected outgoing share copies and browser-encrypted incoming requests with passwords, expiry, limits, and revocation caveats.
+- [Secure file sharing for accountants](https://ronikcloud.com/secure-file-sharing-accountants): A bounded client-document collection and delivery workflow with explicit non-compliance and operational-metadata boundaries.
+- [Dropbox encryption alternative](https://ronikcloud.com/dropbox-encryption-alternative): A comparison guide covering client-side protected files, team keys, external handoffs, recovery, and manual migration.
+- [Client-side vs server-side encryption](https://ronikcloud.com/client-side-vs-server-side-encryption): An educational guide to plaintext boundaries, transport protection, keys, recovery, metadata, and feature-specific limits.
+- [Press and media kit](https://ronikcloud.com/press-kit): Reusable product descriptions, current beta availability, attribution guidance, and official artwork.
+
+## Availability and support
+
+- RonikCloud is in a founding beta. Android, iOS, and macOS beta releases are currently published; Windows and Linux builds are not currently available. Check [current downloads](https://ronikcloud.com/download) for live availability.
+- [Tester program](https://ronikcloud.com/testers): Join release testing.
+- [Support](https://ronikcloud.com/support): Help, account support, and security contact information.
+
+## Important privacy boundary
+
+Client-side encryption does not hide every operational detail. RonikCloud still processes metadata needed to operate the service, including object sizes, timestamps, opaque identifiers, access relationships, storage routing, subscription state, and limited security records. Network infrastructure can observe connection data, timing, and traffic volume.

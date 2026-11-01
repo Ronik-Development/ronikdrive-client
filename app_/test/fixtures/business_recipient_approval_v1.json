@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "companyId": "synthetic-company",
+  "revision": 1,
+  "publicKey": "A6EHv_POEL4dcN0Y50vAmWfk1jCbpQ1fHdyGZBJVMbg",
+  "members": [
+    {
+      "uid": "synthetic-user",
+      "keyId": "jAzBegSULMT44P4LMCYG0xCIYMEmQouizutfntQcKwU",
+      "publicKeyBase64": "CQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQk",
+      "scopes": [
+        "metadata:company",
+        "company_shared"
+      ]
+    }
+  ],
+  "signature": "DkNCrtweF2kXSliu5j0zKLsIcKN5XV1jKUZdF50U6T0ckaCADbRtSBDtyn6DhLc3u1hK5f2aP-a1OJaQv3pWAQ"
+}

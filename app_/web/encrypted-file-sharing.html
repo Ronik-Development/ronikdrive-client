@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Encrypted File Sharing with Link Controls | RonikCloud</title>
+    <meta name="description" content="Send password-protected encrypted file copies with expiry, request limits, and revocation while keeping workspace originals private.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://ronikcloud.com/encrypted-file-sharing">
+    <link rel="stylesheet" href="/marketing.css">
+    <script src="/growth-attribution.js" defer></script>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <meta name="theme-color" content="#071329">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="RonikCloud">
+    <meta property="og:url" content="https://ronikcloud.com/encrypted-file-sharing">
+    <meta property="og:title" content="Encrypted File Sharing with Link Controls | RonikCloud">
+    <meta property="og:description" content="Deliver a separate password-protected encrypted copy with expiry, request limits, and revocation.">
+    <meta property="og:image" content="https://ronikcloud.com/images/ronikcloud-social-card-1200x630.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="RonikCloud encrypted file sharing">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Encrypted File Sharing with Link Controls | RonikCloud">
+    <meta name="twitter:description" content="Deliver a separate password-protected encrypted copy with expiry, request limits, and revocation.">
+    <meta name="twitter:image" content="https://ronikcloud.com/images/ronikcloud-social-card-1200x630.png">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How does a password-protected RonikCloud share work?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "RonikCloud creates a separate encrypted share copy. The browser derives a proof from the password and the backend checks that proof before encrypted bytes leave storage. The recipient's browser decrypts the protected file."
+            }
+          },
+          {
+            "@type": "Question",
+                "name": "Can a share link be limited or revoked?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. New links have an expiry and an encrypted-payload request budget, and the owner can revoke a link. Revocation cannot recall copies that a recipient already downloaded."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What does a recipient need to decrypt a shared file?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The recipient needs the complete share link and its password. After the backend accepts the password proof, the browser downloads and decrypts the protected share copy."
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body data-growth-entry-page="encrypted_file_sharing">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href="/" aria-label="RonikCloud home">
+          <span>RonikCloud</span>
+        </a>
+        <nav class="site-nav" aria-label="Primary navigation"><a href="/resources">Resources</a><a href="/support">Support</a></nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero">
+        <div class="shell hero-grid">
+          <div>
+
+            <h1>Encrypted file sharing with control over the handoff.</h1>
+            <p class="hero-copy">
+              Create a separate encrypted share copy, protect it with a password,
+              limit how long it stays available, and revoke it when the work is
+              done. After the password proof is accepted, the recipient's browser
+              downloads and decrypts the protected copy.
+            </p>
+            <div class="actions">
+              <a class="button" href="/testers" data-growth-cta-placement="hero">Test protected delivery</a>
+              <a class="button secondary" href="/" data-growth-cta-placement="hero">See product and pricing</a>
+            </div>
+            <p class="beta-disclosure"><strong>Founding beta:</strong> RonikCloud has not been independently audited. Use non-critical copies and keep another backup.</p>
+          </div>
+          <aside class="hero-panel" aria-label="Sharing controls">
+            <p class="panel-kicker">Purpose-built controls</p>
+            <ul class="proof-list">
+              <li>Password-protected encrypted share copies.</li>
+              <li>Expiry and encrypted-payload request budgets.</li>
+              <li>Per-link revocation and an emergency revoke-all action.</li>
+              <li>Recipient-side decryption after the password proof is accepted.</li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <div class="trust-strip" aria-label="Sharing principles">
+        <div class="shell trust-grid">
+          <div class="trust-item"><strong>Separate share copy</strong><span>Your workspace original stays separate</span></div>
+          <div class="trust-item"><strong>Password boundary</strong><span>Protects content and private metadata</span></div>
+          <div class="trust-item"><strong>Link controls</strong><span>Expiry, request budget, and revocation</span></div>
+          <div class="trust-item"><strong>Honest revocation</strong><span>Downloaded copies cannot be recalled</span></div>
+        </div>
+      </div>
+
+      <section class="section">
+        <div class="shell">
+          <div class="section-heading">
+
+            <h2>From private workspace to intended recipient.</h2>
+            <p class="section-lead">
+              A public link is a capability. RonikCloud gives you concrete ways
+              to narrow that capability before you send it.
+            </p>
+          </div>
+          <div class="workflow">
+            <div>
+              <h3>Create a protected copy</h3>
+              <p>RonikCloud creates an encrypted derivative for sharing instead of exposing the workspace object directly.</p>
+            </div>
+            <div>
+              <h3>Choose boundaries</h3>
+              <p>Set a password, expiry, and request budget appropriate for the recipient and sensitivity.</p>
+            </div>
+            <div>
+              <h3>Send secrets separately</h3>
+              <p>Send the complete link and password through different trusted channels when possible.</p>
+            </div>
+            <div>
+              <h3>Close access</h3>
+              <p>Watch the request count and revoke a link when the transfer is complete or no longer expected.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section soft">
+        <div class="shell split">
+          <div>
+
+            <h2>The URL alone is not enough to fetch encrypted bytes.</h2>
+            <p class="section-lead">
+              New share links keep the filename and content type inside the same
+              password boundary as the file. The browser derives a proof from the
+              password, and the backend verifies it before releasing the encrypted
+              payload.
+            </p>
+          </div>
+          <ul class="feature-list">
+            <li><strong>Source checks on every request</strong>The share is available only while its source remains active and the owner still has the required access.</li>
+            <li><strong>Finite request budget</strong>New links default to ten encrypted-payload requests, with an owner-selected limit from 1 to 1,000.</li>
+            <li><strong>Coarse expiry</strong>New expiry boundaries are rounded to the next UTC hour rather than storing an exact public-link lifecycle time.</li>
+            <li><strong>Emergency closure</strong>Revoke every active link across Personal and Business files from file management or the Data Safety Center.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="shell">
+          <div class="section-heading">
+
+            <h2>Collect client files without asking them to join your workspace.</h2>
+            <p class="section-lead">
+              A contributor opens the request, selects a file, and encrypts it in
+              the browser. The private URL fragment carries the encryption key
+              and is not included in the HTTP request sent by the browser.
+            </p>
+          </div>
+          <div class="card-grid">
+            <article class="card">
+              <div class="card-number" aria-hidden="true">01</div>
+              <h3>Private request details</h3>
+              <p>The request title, submitted filename, content type, and file body are protected on the contributor's device.</p>
+            </article>
+            <article class="card">
+              <div class="card-number" aria-hidden="true">02</div>
+              <h3>Bounded submissions</h3>
+              <p>Set an expiry and completed-upload limit. Temporary reservations are released if an upload is abandoned.</p>
+            </article>
+            <article class="card">
+              <div class="card-number" aria-hidden="true">03</div>
+              <h3>Owner-controlled closure</h3>
+              <p>Close the request after collection. Anyone with the complete URL can use it until expiry, revocation, or its limit.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section soft">
+        <div class="shell split">
+          <div>
+
+            <h2>A revoked link cannot pull back a downloaded copy.</h2>
+            <p class="section-lead">
+              Encryption and link controls narrow access before and during a
+              transfer. They cannot control a file after an authorized recipient
+              has decrypted and saved it elsewhere.
+            </p>
+          </div>
+          <div>
+            <blockquote class="quote">
+              Treat the full share link, file-request link, and password as
+              sensitive. Confirm the recipient, use separate channels for the
+              link and password when practical, and revoke access that is no
+              longer needed.
+            </blockquote>
+            <p class="note"><strong>Support safety:</strong> Never send support a complete secret-bearing link, password, recovery material, private key, or authentication code.</p>
+            <p>For recurring two-way client handoffs, compare the workflow in the <a href="/encrypted-wetransfer-alternative">encrypted WeTransfer alternative guide</a>.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="shell">
+          <div class="section-heading">
+
+            <h2>Encrypted file sharing FAQ</h2>
+          </div>
+          <div class="faq">
+            <details>
+              <summary>How does a password-protected RonikCloud share work?</summary>
+              <p>RonikCloud creates a separate encrypted share copy. The recipient's browser derives a proof from the password, the backend checks it before encrypted bytes leave storage, and the browser decrypts the protected file.</p>
+            </details>
+            <details>
+              <summary>Can a share link be limited or revoked?</summary>
+              <p>Yes. New links have an expiry and encrypted-payload request budget, and the owner can revoke a link. Revocation cannot recall a copy that a recipient already downloaded.</p>
+            </details>
+            <details>
+              <summary>What does a recipient need to decrypt a shared file?</summary>
+              <p>The recipient needs the complete share link and its password. After the backend accepts the password proof, the browser downloads and decrypts the protected share copy.</p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section class="section compact">
+        <div class="shell final-cta">
+
+          <h2>Give every file handoff a clear beginning and end.</h2>
+          <p>Join the tester program and exercise a protected delivery workflow, or review the product and current pricing first.</p>
+          <p class="beta-disclosure"><strong>Founding beta:</strong> RonikCloud has not been independently audited. Use non-critical copies and keep another backup.</p>
+          <div class="actions">
+            <a class="button" href="/testers" data-growth-cta-placement="final">Test protected delivery</a>
+            <a class="button secondary" href="/" data-growth-cta-placement="final">See product and pricing</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell footer-inner">
+        <span>RonikCloud &mdash; private storage with clear boundaries.</span>
+        <nav class="footer-links" aria-label="Footer navigation">
+          <a href="/resources">Resources</a>
+          <a href="/download">Downloads</a>
+          <a href="/encrypted-file-request">File requests</a>
+          <a href="/press-kit">Press kit</a>
+          <a href="/support">Support</a>
+          <a href="/privacy">Privacy</a>
+          <a href="/terms">Terms</a>
+          <a href="/legal">Legal</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>

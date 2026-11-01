@@ -1,0 +1,169 @@
+name: cloud_storage
+description: "RonikCloud private cloud storage with client-side encryption, protected sharing, backups, and collaboration."
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+# In Windows, build-name is used as the major, minor, and patch parts
+# of the product and file versions while build-number is used as the build suffix.
+version: 1.0.21+27
+
+environment:
+  sdk: ^3.10.0
+
+# Dependencies specify other packages that your package needs in order to work.
+# To automatically upgrade your package dependencies to the latest versions
+# consider running `flutter pub upgrade --major-versions`. Alternatively,
+# dependencies can be manually updated by changing the version numbers below to
+# the latest version available on pub.dev. To see which dependencies have newer
+# versions available, run `flutter pub outdated`.
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  flutter_web_plugins:
+    sdk: flutter
+  intl: ^0.20.2
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.8
+  firebase_core: ^3.4.1
+  firebase_auth: ^5.3.1
+  cloud_firestore: ^5.4.4
+  cloud_functions: ^5.1.1
+  # Native Linux adapters use the same FlutterFire public interfaces, with
+  # user-token RPC transport instead of unsupported native Firebase plugins.
+  firebase_core_platform_interface: 6.0.0
+  firebase_auth_platform_interface: 7.7.3
+  cloud_firestore_platform_interface: 6.6.12
+  cloud_functions_platform_interface: 5.8.2
+  grpc: 5.2.0
+  protobuf: 6.1.0
+  fixnum: 1.1.1
+  google_fonts: ^6.2.1
+  http: ^1.2.2
+  crypto: ^3.0.6
+  archive: ^4.0.7
+  pointycastle: ^4.0.0
+
+  file_picker: ^8.0.3
+  aws_s3_api: ^2.0.0
+  webview_flutter: ^4.8.0
+  webview_flutter_android: ^4.10.2
+  webview_flutter_wkwebview: ^3.23.1
+  webview_windows: ^0.4.0
+  path: ^1.9.0
+  path_provider: ^2.1.3
+  shared_preferences: ^2.2.3
+  xml: ^6.5.0
+  web: ^1.1.0
+  cryptography: ^2.8.0
+  async: ^2.13.0
+  flutter_secure_storage: ^9.2.4
+  image: ^4.5.4
+  open_filex: ^4.7.0
+  share_plus: ^10.0.0
+  desktop_drop: ^0.7.0
+  flutter_local_notifications: ^19.5.0
+  workmanager: ^0.9.0+3
+  otp: ^3.1.5
+  base32: ^2.1.5
+  qr_flutter: ^4.1.0
+  url_launcher: ^6.2.5
+  app_links: ^6.3.0
+  in_app_purchase: 3.3.0
+  in_app_purchase_android: 0.5.0
+  in_app_purchase_storekit: 0.4.10+1
+
+
+dependency_overrides:
+  firebase_auth:
+    path: vendor/firebase_auth
+  cloud_firestore:
+    path: vendor/cloud_firestore
+  desktop_drop:
+    path: vendor/desktop_drop
+  file_picker:
+    path: vendor/file_picker
+  intl: ^0.20.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
+  flutter_lints: ^5.0.0
+  firebase_auth_mocks: ^0.14.2
+  fake_cloud_firestore: ^3.0.5
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter packages.
+flutter:
+  generate: true
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_128.png
+    - assets/config/google_drive_oauth.json
+    - assets/config/onedrive_oauth.json
+    - assets/config/dropbox_oauth.json
+    - assets/fonts/
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/to/resolution-aware-images
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/to/asset-from-package
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  fonts:
+    - family: Source Sans 3
+      fonts:
+        - asset: assets/fonts/SourceSans3-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/SourceSans3-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/SourceSans3-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/SourceSans3-Bold.ttf
+          weight: 700
+    - family: Noto Sans
+      fonts:
+        - asset: assets/fonts/NotoSans-Regular.ttf
+        - asset: assets/fonts/NotoSans-Bold.ttf
+          weight: 700
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/to/font-from-package

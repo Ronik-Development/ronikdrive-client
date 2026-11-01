@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Payment Completed</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      background: linear-gradient(135deg, #f4f7ff, #eef6ff);
+      color: #152238;
+      padding: 24px;
+    }
+
+    .card {
+      max-width: 560px;
+      background: #ffffff;
+      border: 1px solid rgba(21, 34, 56, 0.12);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 24px 44px rgba(15, 25, 40, 0.08);
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: 26px;
+    }
+
+    p {
+      margin: 0;
+      line-height: 1.6;
+      color: #4c5a71;
+    }
+  </style>
+</head>
+<body>
+  <article class="card">
+    <h1>Payment completed</h1>
+    <p>
+      Your payment has been accepted. You can close this page and return to the
+      app. Subscription status updates automatically after Stripe webhook
+      confirmation.
+    </p>
+  </article>
+</body>
+</html>

@@ -1,0 +1,2 @@
+# Web icons are deployable source assets and must stay in Git so clean CI
+# checkouts never publish broken favicon or PWA references.

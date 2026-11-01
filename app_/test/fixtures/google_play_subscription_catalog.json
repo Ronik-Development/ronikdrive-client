@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "packageName": "com.cloudstorage.cloud_storage",
+  "store": "google_play",
+  "provisioningStatus": "draft_products_and_base_plans_saved",
+  "referenceCurrency": "USD",
+  "priceSource": "app_store_subscription_catalog.json",
+  "pricingNote": "The owner-approved USD reference prices are saved on the United States rows of inactive Play Console drafts. Automatically generated regional prices and availability require review before activation. Display localized prices returned by Google Play. This file does not activate store products.",
+  "products": [
+    {
+      "productId": "ronikdrive.basic.monthly",
+      "basePlanId": "monthly",
+      "tier": "basic",
+      "interval": "monthly",
+      "billingPeriod": "P1M",
+      "capacityBytes": 536870912000,
+      "referencePriceUsd": "2.49"
+    },
+    {
+      "productId": "ronikdrive.basic.yearly",
+      "basePlanId": "basic-yearly",
+      "tier": "basic",
+      "interval": "yearly",
+      "billingPeriod": "P1Y",
+      "capacityBytes": 536870912000,
+      "referencePriceUsd": "25.00"
+    },
+    {
+      "productId": "ronikdrive.pro.monthly",
+      "basePlanId": "pro-monthly",
+      "tier": "pro",
+      "interval": "monthly",
+      "billingPeriod": "P1M",
+      "capacityBytes": 1099511627776,
+      "referencePriceUsd": "3.49"
+    },
+    {
+      "productId": "ronikdrive.pro.yearly",
+      "basePlanId": "pro-yearly",
+      "tier": "pro",
+      "interval": "yearly",
+      "billingPeriod": "P1Y",
+      "capacityBytes": 1099511627776,
+      "referencePriceUsd": "35.00"
+    },
+    {
+      "productId": "ronikdrive.ultra.monthly",
+      "basePlanId": "ultra-monthly",
+      "tier": "ultra",
+      "interval": "monthly",
+      "billingPeriod": "P1M",
+      "capacityBytes": 2199023255552,
+      "referencePriceUsd": "6.00"
+    },
+    {
+      "productId": "ronikdrive.ultra.yearly",
+      "basePlanId": "ultra-yearly",
+      "tier": "ultra",
+      "interval": "yearly",
+      "billingPeriod": "P1Y",
+      "capacityBytes": 2199023255552,
+      "referencePriceUsd": "60.00"
+    }
+  ]
+}

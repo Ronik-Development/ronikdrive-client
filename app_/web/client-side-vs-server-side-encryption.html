@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Client-Side vs Server-Side Cloud Encryption | RonikCloud</title>
+    <meta name="description" content="Compare client-side and server-side encryption, transport protection, key boundaries, metadata limits, recovery tradeoffs, and RonikCloud’s current model.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://ronikcloud.com/client-side-vs-server-side-encryption">
+    <link rel="stylesheet" href="/marketing.css">
+    <script src="/growth-attribution.js" defer></script>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <meta name="theme-color" content="#071329">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="RonikCloud">
+    <meta property="og:url" content="https://ronikcloud.com/client-side-vs-server-side-encryption">
+    <meta property="og:title" content="Client-Side vs Server-Side Cloud Encryption | RonikCloud">
+    <meta property="og:description" content="A practical cloud-storage guide to where encryption happens, who handles keys, what metadata remains, and how recovery changes.">
+    <meta property="og:image" content="https://ronikcloud.com/images/ronikcloud-social-card-1200x630.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Client-side versus server-side encryption guide from RonikCloud">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Client-Side vs Server-Side Cloud Encryption | RonikCloud">
+    <meta name="twitter:description" content="A practical cloud-storage guide to where encryption happens, who handles keys, what metadata remains, and how recovery changes.">
+    <meta name="twitter:image" content="https://ronikcloud.com/images/ronikcloud-social-card-1200x630.png">
+    <script type="application/ld+json">
+      {
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                      {
+                              "@type": "Question",
+                              "name": "Is client-side encryption the same as HTTPS?",
+                              "acceptedAnswer": {
+                                      "@type": "Answer",
+                                      "text": "No. HTTPS protects traffic between endpoints while it is in transit. Client-side encryption protects selected content before the upload reaches the service application boundary, so the two controls address different parts of the data path."
+                              }
+                      },
+                      {
+                              "@type": "Question",
+                              "name": "Does server-side encryption mean data is stored as plaintext?",
+                              "acceptedAnswer": {
+                                      "@type": "Answer",
+                                      "text": "Not necessarily. Server-side encryption can store data as ciphertext and protect storage media. The distinction is that the service application receives readable data or controls the encryption path before the storage layer protects it."
+                              }
+                      },
+                      {
+                              "@type": "Question",
+                              "name": "Does client-side encryption hide all metadata?",
+                              "acceptedAnswer": {
+                                      "@type": "Answer",
+                                      "text": "No. File sizes, timestamps, opaque identifiers, access relationships, routing, account state, limits, and network observations may remain visible even when file content and private labels are protected."
+                              }
+                      },
+                      {
+                              "@type": "Question",
+                              "name": "Which encryption model does RonikCloud use?",
+                              "acceptedAnswer": {
+                                      "@type": "Answer",
+                                      "text": "RonikCloud uses client-side protection for supported file content, protected file names, and new folder labels before storage. Other features have their own documented key and metadata boundaries, so RonikCloud does not make a universal zero-knowledge or end-to-end-encryption claim."
+                              }
+                      }
+              ]
+      }
+    </script>
+  </head>
+  <body data-growth-entry-page="client_side_vs_server_side">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href="/" aria-label="RonikCloud home">
+          <span>RonikCloud</span>
+        </a>
+        <nav class="site-nav" aria-label="Primary navigation"><a href="/resources">Resources</a><a href="/support">Support</a></nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero">
+        <div class="shell hero-grid">
+          <div>
+
+            <h1>Client-side vs server-side encryption: where does protection begin?</h1>
+            <p class="hero-copy">Both approaches can protect stored data, but they place trust and key handling at different boundaries. The useful question is which system sees readable file content, when encryption occurs, how recovery works, and what operational metadata remains.</p>
+            <div class="actions">
+              <a class="button" href="/testers" data-growth-cta-placement="hero">Test the encryption workflow</a>
+              <a class="button secondary" href="/" data-growth-cta-placement="hero">See product and pricing</a>
+            </div>
+            <p class="beta-disclosure"><strong>Founding beta:</strong> RonikCloud has not been independently audited. Use non-critical copies and keep another backup.</p>
+          </div>
+          <aside class="hero-panel" aria-label="The short distinction">
+            <p class="panel-kicker">The short distinction</p>
+            <ul class="proof-list">
+              <li>Client-side encryption protects selected content on the user’s device before upload.</li>
+              <li>Server-side encryption protects data after the service receives it inside its application boundary.</li>
+              <li>HTTPS protects traffic in transit but does not by itself define the storage encryption boundary.</li>
+              <li>Neither model automatically hides all metadata, network activity, account state, or recipient behavior.</li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <div class="trust-strip" aria-label="Evaluation principles">
+        <div class="shell trust-grid">
+          <div class="trust-item"><strong>Location matters</strong><span>Identify the first component that sees plaintext</span></div>
+          <div class="trust-item"><strong>Keys define capability</strong><span>Ask who can derive, wrap, recover, or rotate them</span></div>
+          <div class="trust-item"><strong>Metadata is separate</strong><span>Encryption does not erase every operational record</span></div>
+          <div class="trust-item"><strong>Recovery is a tradeoff</strong><span>Stronger user control increases user responsibility</span></div>
+        </div>
+      </div>
+
+      <section class="section">
+        <div class="shell">
+          <div class="section-heading">
+
+            <h2>Use the data path to understand the difference.</h2>
+            <p class="section-lead">Marketing terms become clearer when you follow a file from the local device to the service, storage provider, another device, and an outside recipient.</p>
+          </div>
+          <div class="workflow">
+            <div>
+              <h3>Before upload</h3>
+              <p>Client-side encryption transforms protected plaintext on the user’s device. With server-side encryption, the service application receives readable content before its storage layer protects it.</p>
+            </div>
+            <div>
+              <h3>During transport</h3>
+              <p>HTTPS can protect either model in transit. It prevents ordinary network observers from reading the request but does not decide which endpoint handles plaintext.</p>
+            </div>
+            <div>
+              <h3>While stored</h3>
+              <p>Both models may store ciphertext. The difference is whether the service application possesses the key or receives the readable file during normal processing.</p>
+            </div>
+            <div>
+              <h3>During recovery and sharing</h3>
+              <p>Recovery, previews, search, collaboration, and public sharing may introduce different key paths. Each feature needs its own documented boundary.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section soft">
+        <div class="shell split">
+          <div>
+
+            <h2>The service protects data within infrastructure it controls.</h2>
+            <p class="section-lead">In a typical server-side model, the client sends data over a protected connection and the service encrypts it for storage. This can reduce storage-media exposure and centralize key rotation, recovery, indexing, and policy enforcement.</p>
+          </div>
+          <ul class="feature-list">
+            <li><strong>Operational simplicity</strong>The service can usually perform previews, search, processing, recovery, and sharing without asking the user to manage separate content keys.</li>
+            <li><strong>Central key authority</strong>Service-controlled key systems can rotate or revoke storage keys, but the service application remains inside the plaintext trust boundary.</li>
+            <li><strong>Infrastructure protection</strong>Encryption at the storage layer helps protect lost media or unauthorized raw storage access when keys are controlled separately.</li>
+            <li><strong>Threat-model limit</strong>It does not prevent the authorized service application—or a compromise with equivalent authority—from accessing readable content during normal processing.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="shell">
+          <div class="section-heading">
+
+            <h2>Protected content reaches the service already encrypted.</h2>
+            <p class="section-lead">In a client-side model, the device encrypts supported plaintext before upload. The service can store and route ciphertext without requiring the ordinary storage path to receive the content key.</p>
+          </div>
+          <div class="card-grid">
+            <article class="card">
+              <div class="card-number" aria-hidden="true">01</div>
+              <h3>A narrower plaintext boundary</h3>
+              <p>The storage service can operate on protected ciphertext, while decryption occurs in an authorized client that has or derives the necessary key.</p>
+            </article>
+            <article class="card">
+              <div class="card-number" aria-hidden="true">02</div>
+              <h3>More client responsibility</h3>
+              <p>The client must handle key derivation, device state, recovery artifacts, failures, and safe collaboration paths. Lost secrets can mean lost access.</p>
+            </article>
+            <article class="card">
+              <div class="card-number" aria-hidden="true">03</div>
+              <h3>Feature-specific exceptions matter</h3>
+              <p>Thumbnails, search indexes, comments, shares, recovery, and team access need separate scrutiny. One protected upload path does not prove every feature has the same boundary.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section soft">
+        <div class="shell split">
+          <div>
+
+            <h2>Client-side protection with documented limits.</h2>
+            <p class="section-lead">RonikCloud encrypts protected file content, file names, and new folder labels on the device before storage. It uses separate protected paths for recovery, Business member keys, password shares, file requests, comments, and local private state.</p>
+          </div>
+          <div>
+            <blockquote class="quote">RonikCloud does not make a global zero-knowledge or universal end-to-end-encryption claim. The server cannot prove that arbitrary uploaded bytes are semantically encrypted, and service metadata remains necessary.</blockquote>
+            <p class="note"><strong>Important:</strong> Operational metadata includes object sizes, timestamps, opaque identifiers, access relationships, storage routing, subscription state, and limited security records. Network infrastructure can observe connection data, timing, and traffic volume.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="shell">
+          <div class="section-heading">
+
+            <h2>Read the evidence behind the workflow.</h2>
+            <p class="section-lead">Use the related RonikCloud guides to inspect protection, recovery, sharing, collection, and team access in more detail.</p>
+          </div>
+          <div class="card-grid two">
+            <article class="card">
+              <h3><a href="/secure-cloud-storage">RonikCloud’s secure-storage model</a></h3>
+              <p>See the current user-facing protection, recovery, and metadata boundaries.</p>
+            </article>
+            <article class="card">
+              <h3><a href="/security-whitepaper">Implementation-derived whitepaper</a></h3>
+              <p>Review exact algorithms, key flows, authorization paths, and explicit assurance limitations.</p>
+            </article>
+            <article class="card">
+              <h3><a href="/encrypted-file-sharing">Sharing changes the boundary</a></h3>
+              <p>Understand password-derived proofs, separate encrypted copies, recipient decryption, and revocation limits.</p>
+            </article>
+            <article class="card">
+              <h3><a href="/for-small-teams">Team keys and membership</a></h3>
+              <p>See how Business folder keys are wrapped for members and how access changes affect local state.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section soft">
+        <div class="shell">
+          <div class="section-heading">
+
+            <h2>Cloud encryption explained FAQ</h2>
+          </div>
+          <div class="faq">
+            <details>
+              <summary>Is client-side encryption the same as HTTPS?</summary>
+              <p>No. HTTPS protects traffic between endpoints while it is in transit. Client-side encryption protects selected content before the upload reaches the service application boundary, so the two controls address different parts of the data path.</p>
+            </details>
+            <details>
+              <summary>Does server-side encryption mean data is stored as plaintext?</summary>
+              <p>Not necessarily. Server-side encryption can store data as ciphertext and protect storage media. The distinction is that the service application receives readable data or controls the encryption path before the storage layer protects it.</p>
+            </details>
+            <details>
+              <summary>Does client-side encryption hide all metadata?</summary>
+              <p>No. File sizes, timestamps, opaque identifiers, access relationships, routing, account state, limits, and network observations may remain visible even when file content and private labels are protected.</p>
+            </details>
+            <details>
+              <summary>Which encryption model does RonikCloud use?</summary>
+              <p>RonikCloud uses client-side protection for supported file content, protected file names, and new folder labels before storage. Other features have their own documented key and metadata boundaries, so RonikCloud does not make a universal zero-knowledge or end-to-end-encryption claim.</p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section class="section compact">
+        <div class="shell final-cta">
+
+          <h2>Test where protection begins and how recovery works.</h2>
+          <p>Join the tester program and exercise upload, recovery, sharing, and team behavior, or review the product and current pricing first.</p>
+          <p class="beta-disclosure"><strong>Founding beta:</strong> RonikCloud has not been independently audited. Use non-critical copies and keep another backup.</p>
+          <div class="actions">
+            <a class="button" href="/testers" data-growth-cta-placement="final">Test the encryption workflow</a>
+            <a class="button secondary" href="/" data-growth-cta-placement="final">See product and pricing</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell footer-inner">
+        <span>RonikCloud &mdash; private storage with clear boundaries.</span>
+        <nav class="footer-links" aria-label="Footer navigation">
+          <a href="/resources">Resources</a>
+          <a href="/download">Downloads</a>
+          <a href="/press-kit">Press kit</a>
+          <a href="/support">Support</a>
+          <a href="/privacy">Privacy</a>
+          <a href="/terms">Terms</a>
+          <a href="/legal">Legal</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,24 @@
+// Application-level settings for the Runner target.
+//
+// This may be replaced with something auto-generated from metadata (e.g., pubspec.yaml) in the
+// future. If not, the values below would default to using the project name when this becomes a
+// 'flutter create' template.
+
+// The application's name. By default this is also the title of the Flutter window.
+PRODUCT_NAME = RonikCloud
+
+// The application's bundle identifier
+PRODUCT_BUNDLE_IDENTIFIER = com.ronikcloud.ronikdrive
+
+// The copyright displayed in application information
+PRODUCT_COPYRIGHT = Copyright 2026 RonikCloud. All rights reserved.
+
+// Safe defaults for normal local development. Release tooling overrides these
+// variables in the optional target-scoped signing file below.
+RONIKDRIVE_CODE_SIGN_STYLE = Automatic
+RONIKDRIVE_CODE_SIGN_IDENTITY = -
+RONIKDRIVE_DEVELOPMENT_TEAM =
+RONIKDRIVE_PROVISIONING_PROFILE_SPECIFIER =
+
+// Generated temporarily by release tooling; absent during normal development.
+#include? "Signing.release.xcconfig"

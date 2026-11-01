@@ -1,0 +1,44 @@
+name: Public client verification
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  client:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Verify the release snapshot
+        if: github.event_name == 'push'
+        run: python3 verify_source.py
+      - name: Install the exact official Flutter SDK
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdk="$RUNNER_TEMP/flutter-source-sdk"
+          git init "$sdk"
+          git -C "$sdk" remote add origin https://github.com/flutter/flutter.git
+          git -C "$sdk" fetch --depth=1 origin b45fa18946ecc2d9b4009952c636ba7e2ffbb787
+          git -C "$sdk" checkout --detach b45fa18946ecc2d9b4009952c636ba7e2ffbb787
+          test "$(git -C "$sdk" rev-parse HEAD)" = b45fa18946ecc2d9b4009952c636ba7e2ffbb787
+          echo "$sdk/bin" >> "$GITHUB_PATH"
+      - name: Resolve locked dependencies
+        working-directory: app_
+        run: flutter pub get --enforce-lockfile
+      - name: Analyze
+        working-directory: app_
+        run: flutter analyze
+      - name: Test
+        working-directory: app_
+        run: flutter test
+      - name: Verify risk matrix
+        working-directory: app_
+        run: dart run tool/verify_test_matrix.dart
+      - name: Compile the web client without production access
+        working-directory: app_
+        run: flutter build web --release --dart-define=RONIKDRIVE_SERVICE_ENVIRONMENT=local

@@ -1,0 +1,4 @@
+Contact: mailto:support@ronikcloud.com
+Expires: 2027-07-31T23:59:59Z
+Preferred-Languages: en
+Canonical: https://ronikcloud.com/.well-known/security.txt

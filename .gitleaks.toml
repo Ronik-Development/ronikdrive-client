@@ -1,0 +1,29 @@
+title = "Public client source"
+[extend]
+useDefault = true
+
+# Firebase client identifiers are shipped in the application. This exception
+# applies only to Firebase's public-key format in the reviewed client files.
+[[allowlists]]
+description = "Public Firebase client configuration"
+condition = "AND"
+targetRules = ["gcp-api-key", "generic-api-key"]
+regexTarget = "secret"
+regexes = ['''^AIza[0-9A-Za-z_-]{30,}$''']
+paths = [
+  '''^app_/lib/firebase_options[.]dart$''',
+  '''^app_/android/app/google-services[.]json$''',
+  '''^app_/(?:ios|macos)/Runner/GoogleService-Info[.]plist$''',
+  '''^app_/vendor/(?:cloud_firestore|firebase_auth)/(?:example|dartpad)/'''
+]
+
+[[allowlists]]
+description = "Immutable public Google schema provenance digests"
+condition = "AND"
+targetRules = ["generic-api-key"]
+regexTarget = "secret"
+paths = ['''^app_/lib/src/linux_cloud/firestore_wire/source-manifest[.]json$''']
+regexes = [
+  '''^e7513c828b8db536fa12fc5493d541f323aedf90$''',
+  '''^20001401f3698f67b896ffb2262eadf5645806f7a35a4cf347b5cc31568a7ecf$'''
+]

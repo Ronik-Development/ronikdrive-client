@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Secure Checkout</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg-start: #ecf2ff;
+      --bg-end: #f8fbff;
+      --surface: #ffffff;
+      --surface-soft: #f6f9ff;
+      --text: #17243d;
+      --muted: #60708a;
+      --border: rgba(23, 36, 61, 0.1);
+      --accent: #2d63e8;
+      --accent-soft: rgba(45, 99, 232, 0.1);
+      --head-start: rgba(255, 255, 255, 0.95);
+      --head-end: rgba(246, 249, 255, 0.95);
+      --checkout-surface: #ffffff;
+      --checkout-border: rgba(23, 36, 61, 0.08);
+      --shadow-primary: rgba(14, 26, 43, 0.08);
+      --shadow-secondary: rgba(14, 26, 43, 0.04);
+      --error: #b42318;
+    }
+
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --bg-start: #0a1020;
+      --bg-end: #0f172a;
+      --surface: #111b30;
+      --surface-soft: #0d162a;
+      --text: #e8eefc;
+      --muted: #9eb0cf;
+      --border: rgba(164, 182, 215, 0.18);
+      --accent: #79a4ff;
+      --accent-soft: rgba(121, 164, 255, 0.2);
+      --head-start: rgba(17, 27, 48, 0.94);
+      --head-end: rgba(13, 22, 40, 0.94);
+      --checkout-surface: #0b1324;
+      --checkout-border: rgba(164, 182, 215, 0.2);
+      --shadow-primary: rgba(0, 0, 0, 0.45);
+      --shadow-secondary: rgba(0, 0, 0, 0.25);
+      --error: #ff8f8f;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(165deg, var(--bg-start), var(--bg-end));
+      color: var(--text);
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      border-radius: 999px;
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(6px);
+    }
+
+    body::before {
+      width: 300px;
+      height: 300px;
+      right: -80px;
+      top: -80px;
+      background: rgba(45, 99, 232, 0.12);
+    }
+
+    body::after {
+      width: 220px;
+      height: 220px;
+      left: -60px;
+      bottom: -60px;
+      background: rgba(38, 188, 255, 0.12);
+    }
+
+    .shell {
+      width: min(1080px, 100%);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      box-shadow:
+        0 18px 40px var(--shadow-primary),
+        0 2px 8px var(--shadow-secondary);
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+    }
+
+    .head {
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: linear-gradient(
+        180deg,
+        var(--head-start),
+        var(--head-end)
+      );
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .brand-kicker {
+      margin: 0;
+      font-size: 11px;
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .title {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .status {
+      margin: 0;
+      font-size: 13px;
+      color: var(--accent);
+      background: var(--accent-soft);
+      border: 1px solid rgba(45, 99, 232, 0.14);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .status.error {
+      color: var(--error);
+      background: rgba(180, 35, 24, 0.08);
+      border-color: rgba(180, 35, 24, 0.2);
+    }
+
+    .content {
+      padding: 14px;
+      min-height: 700px;
+      background: var(--surface-soft);
+    }
+
+    .checkout-panel {
+      min-height: 700px;
+      border-radius: 14px;
+      overflow: hidden;
+      background: var(--checkout-surface);
+      border: 1px solid var(--checkout-border);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    #payment-element {
+      min-height: 520px;
+    }
+
+    .payment-privacy {
+      margin: 0;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: rgba(45, 99, 232, 0.08);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .inline-error {
+      margin: 0;
+      color: var(--error);
+      font-size: 13px;
+      font-weight: 600;
+      min-height: 18px;
+    }
+
+    .pay-button {
+      appearance: none;
+      border: 0;
+      border-radius: 12px;
+      padding: 13px 18px;
+      background: var(--accent);
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 120ms ease-in-out, transform 120ms ease-in-out;
+    }
+
+    .pay-button:hover:not(:disabled) {
+      transform: translateY(-1px);
+    }
+
+    .pay-button:disabled {
+      cursor: default;
+      opacity: 0.6;
+      transform: none;
+    }
+
+    @media (max-width: 760px) {
+      .head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .status {
+        width: 100%;
+      }
+
+      .content,
+      .checkout-panel {
+        min-height: 640px;
+      }
+
+      #payment-element {
+        min-height: 480px;
+      }
+    }
+  </style>
+  <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+  <main class="shell">
+    <header class="head">
+      <div class="brand">
+        <p class="brand-kicker">RonikCloud</p>
+        <h1 class="title">Secure checkout</h1>
+      </div>
+      <p id="status" class="status">Preparing checkout...</p>
+    </header>
+    <section class="content">
+      <div class="checkout-panel">
+        <p class="payment-privacy">
+          This is an auto-renewing subscription. Your full card number and
+          security code are sent directly to Stripe, not stored by RonikCloud.
+          Stripe retains a reusable payment credential for renewals. If checkout
+          is abandoned before confirmation, no RonikCloud subscription or charge
+          is created. Stripe may still process the checkout session and payment
+          input already entered under its
+          <a href="https://stripe.com/privacy" target="_blank" rel="noopener noreferrer">privacy policy</a>.
+          Canceling renewal or deleting an account does not automatically issue
+          a refund.
+        </p>
+        <div id="payment-element"></div>
+        <p id="inline-error" class="inline-error"></p>
+        <button id="pay-button" class="pay-button" type="button" disabled>
+          Pay now
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const STRIPE_PUBLISHABLE_KEY =
+      'pk_live_51LFcvoKZIms1Bh4MAhZqzeE5g0JU4kYVvjcDvf18n2hbtXghwRM5LcvqZ9ySBIbLk56hcMCJdzgbxE63JBsY5fOh00StsgJ6oY';
+    const DEFAULT_CHECKOUT_BASE_URL = 'https://api-hn7guzik3q-ew.a.run.app';
+
+    const rawParams = new URLSearchParams(window.location.search);
+    const params = loadStartupParams(rawParams);
+    const startupClientSecret = (params.get('clientSecret') || '').trim();
+    const startupCheckoutUrl = (params.get('checkoutUrl') || '').trim();
+    const startupTier = (params.get('tier') || 'pro').trim().toLowerCase();
+    const startupInterval = (params.get('interval') || 'monthly')
+      .trim()
+      .toLowerCase();
+    const startupEmail = (params.get('email') || '').trim();
+    const startupUid = (params.get('uid') || '').trim();
+    const startupIdToken = (params.get('idToken') || '').trim();
+    const startupUiMode = normalizeUiMode((params.get('uiMode') || '').trim());
+    const configuredReturnUrl = (params.get('returnUrl') || '').trim();
+    const configuredCancelUrl = (params.get('cancelUrl') || '').trim();
+    const configuredCheckoutBase = (params.get('checkoutBaseUrl') || '').trim();
+    const startupTheme = normalizeTheme((params.get('theme') || '').trim());
+
+    const prefersDark =
+      window.matchMedia &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const resolvedTheme = startupTheme || (prefersDark ? 'dark' : 'light');
+    const requestedUiMode = startupUiMode || 'custom';
+
+    const statusEl = document.getElementById('status');
+    const inlineErrorEl = document.getElementById('inline-error');
+    const payButtonEl = document.getElementById('pay-button');
+
+    let confirmActions = null;
+    let isSubmitting = false;
+
+    applyTheme(resolvedTheme);
+
+    function loadStartupParams(queryParams) {
+      const stateKey = (queryParams.get('checkoutState') || '').trim();
+      if (!stateKey) {
+        return queryParams;
+      }
+
+      try {
+        const rawState = window.sessionStorage.getItem(stateKey);
+        if (!rawState) {
+          return queryParams;
+        }
+        const decoded = JSON.parse(rawState);
+        window.sessionStorage.removeItem(stateKey);
+        const merged = new URLSearchParams(queryParams);
+        for (const [key, value] of Object.entries(decoded || {})) {
+          if (typeof value === 'string') {
+            merged.set(key, value);
+          }
+        }
+        merged.delete('checkoutState');
+        return merged;
+      } catch (_) {
+        return queryParams;
+      }
+    }
+
+    function normalizeTheme(theme) {
+      const normalized = (theme || '').toLowerCase();
+      if (normalized === 'dark' || normalized === 'light') {
+        return normalized;
+      }
+      return '';
+    }
+
+    function normalizeUiMode(mode) {
+      const normalized = (mode || '').toLowerCase();
+      if (
+        normalized === 'custom' ||
+        normalized === 'embedded' ||
+        normalized === 'hosted'
+      ) {
+        return normalized;
+      }
+      return '';
+    }
+
+    function applyTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme || 'light');
+    }
+
+    function setStatus(message, isError = false) {
+      if (!statusEl) {
+        return;
+      }
+      statusEl.textContent = message;
+      statusEl.classList.toggle('error', isError);
+    }
+
+    function setInlineError(message) {
+      if (!inlineErrorEl) {
+        return;
+      }
+      inlineErrorEl.textContent = message || '';
+    }
+
+    function setSubmitState(enabled) {
+      if (!payButtonEl) {
+        return;
+      }
+      payButtonEl.disabled = !enabled || !confirmActions || isSubmitting;
+      payButtonEl.textContent = isSubmitting ? 'Processing...' : 'Pay now';
+    }
+
+    function setCustomButtonVisible(visible) {
+      if (!payButtonEl) {
+        return;
+      }
+      payButtonEl.style.display = visible ? 'block' : 'none';
+    }
+
+    function resolveCheckoutBaseUrl() {
+      const runtimeGlobal =
+        typeof window.__RONIKDRIVE_STRIPE_CHECKOUT_BASE_URL === 'string'
+          ? window.__RONIKDRIVE_STRIPE_CHECKOUT_BASE_URL
+          : '';
+      const candidate =
+        configuredCheckoutBase || runtimeGlobal || DEFAULT_CHECKOUT_BASE_URL;
+      return candidate.replace(/\/+$/, '');
+    }
+
+    function resolveReturnUrl() {
+      if (configuredReturnUrl) {
+        return configuredReturnUrl;
+      }
+      return `${window.location.origin}/payment-success`;
+    }
+
+    function resolveCancelUrl() {
+      if (configuredCancelUrl) {
+        return configuredCancelUrl;
+      }
+      const url = new URL(window.location.href);
+      url.searchParams.delete('clientSecret');
+      url.searchParams.delete('checkoutUrl');
+      return url.toString();
+    }
+
+    function fallbackToHosted(reason) {
+      if (!startupCheckoutUrl) {
+        throw new Error(reason);
+      }
+      setStatus('Redirecting to hosted checkout...');
+      window.location.assign(startupCheckoutUrl);
+    }
+
+    function buildAppearance(theme) {
+      if (theme === 'dark') {
+        return {
+          theme: 'night',
+          variables: {
+            colorPrimary: '#79a4ff',
+            colorBackground: '#0b1324',
+            colorText: '#e8eefc',
+            colorTextSecondary: '#9eb0cf',
+            colorDanger: '#ff8f8f',
+            colorSuccess: '#5fe39b',
+            borderRadius: '12px',
+            spacingUnit: '4px',
+            fontFamily: '"Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+          },
+        };
+      }
+
+      return {
+        theme: 'stripe',
+        variables: {
+          colorPrimary: '#2d63e8',
+          colorBackground: '#ffffff',
+          colorText: '#17243d',
+          colorTextSecondary: '#60708a',
+          colorDanger: '#b42318',
+          borderRadius: '12px',
+          spacingUnit: '4px',
+          fontFamily: '"Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+        },
+      };
+    }
+
+    async function requestCheckoutSession(uiMode) {
+      const email = startupEmail;
+      if (!email) {
+        throw new Error('Missing checkout email.');
+      }
+
+      const endpoint = `${resolveCheckoutBaseUrl()}/create-checkout-session`;
+      const payload = {
+        uid: startupUid || `email:${email.toLowerCase()}`,
+        email,
+        tier: startupTier,
+        interval: startupInterval,
+        uiMode,
+        theme: resolvedTheme,
+        successUrl: resolveReturnUrl(),
+        cancelUrl: resolveCancelUrl(),
+      };
+      if (startupIdToken) {
+        payload.idToken = startupIdToken;
+      }
+
+      let response;
+      try {
+        response = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+      } catch (_) {
+        throw new Error(
+          'Unable to reach checkout service. Check your connection and retry.'
+        );
+      }
+
+      if (!response.ok) {
+        let detail = 'Failed to create checkout session.';
+        try {
+          const data = await response.json();
+          if (data && typeof data.detail === 'string') {
+            detail = data.detail;
+          }
+        } catch (_) {}
+        throw new Error(detail);
+      }
+
+      const data = await response.json();
+      const responseUiMode = normalizeUiMode(
+        data && typeof data.uiMode === 'string' ? data.uiMode : ''
+      );
+      const clientSecret =
+        data && typeof data.clientSecret === 'string'
+          ? data.clientSecret.trim()
+          : '';
+      const checkoutUrl =
+        data && typeof data.url === 'string' ? data.url.trim() : '';
+
+      if (clientSecret || checkoutUrl) {
+        return {
+          clientSecret,
+          checkoutUrl,
+          uiMode: responseUiMode || uiMode || 'hosted',
+        };
+      }
+
+      throw new Error('Checkout session was created without usable data.');
+    }
+
+    async function resolveActions(checkout) {
+      if (checkout && typeof checkout.loadActions === 'function') {
+        const result = await checkout.loadActions();
+        if (
+          result &&
+          result.type === 'success' &&
+          result.actions &&
+          typeof result.actions.confirm === 'function'
+        ) {
+          return result.actions;
+        }
+        if (result && result.error && typeof result.error.message === 'string') {
+          throw new Error(result.error.message);
+        }
+        throw new Error('Stripe checkout actions failed to load.');
+      }
+
+      if (checkout && typeof checkout.confirm === 'function') {
+        return {
+          confirm: (...args) => checkout.confirm(...args),
+        };
+      }
+
+      throw new Error('Stripe checkout confirmation actions are unavailable.');
+    }
+
+    function mountPaymentElement(checkout) {
+      if (checkout && typeof checkout.createPaymentElement === 'function') {
+        const paymentElement = checkout.createPaymentElement();
+        paymentElement.mount('#payment-element');
+        return;
+      }
+
+      if (checkout && typeof checkout.createElements === 'function') {
+        const elements = checkout.createElements();
+        const paymentElement = elements.create('payment');
+        paymentElement.mount('#payment-element');
+        return;
+      }
+
+      throw new Error('Stripe payment element is unavailable.');
+    }
+
+    function extractConfirmError(result) {
+      if (!result) {
+        return '';
+      }
+      if (
+        result.error &&
+        typeof result.error.message === 'string' &&
+        result.error.message.trim()
+      ) {
+        return result.error.message.trim();
+      }
+      if (typeof result.message === 'string' && result.message.trim()) {
+        return result.message.trim();
+      }
+      return '';
+    }
+
+    async function startCustomCheckout(stripe, clientSecret) {
+      if (typeof stripe.initCheckout !== 'function') {
+        throw new Error('Custom checkout is unavailable in this browser.');
+      }
+
+      const checkout = await stripe.initCheckout({
+        clientSecret,
+        elementsOptions: {
+          appearance: buildAppearance(resolvedTheme),
+        },
+      });
+
+      confirmActions = await resolveActions(checkout);
+      mountPaymentElement(checkout);
+      setCustomButtonVisible(true);
+      setSubmitState(true);
+    }
+
+    async function startEmbeddedCheckout(stripe, clientSecret) {
+      if (typeof stripe.initEmbeddedCheckout !== 'function') {
+        throw new Error('Embedded checkout is unavailable in this browser.');
+      }
+      const checkout = await stripe.initEmbeddedCheckout({
+        fetchClientSecret: async () => clientSecret,
+        onComplete: () => {
+          setStatus('Payment completed. Finalizing subscription...');
+        },
+      });
+      checkout.mount('#payment-element');
+      confirmActions = null;
+      setCustomButtonVisible(false);
+      setSubmitState(false);
+    }
+
+    async function startCheckout() {
+      const stripe =
+        typeof Stripe === 'function' ? Stripe(STRIPE_PUBLISHABLE_KEY) : null;
+      if (!stripe) {
+        throw new Error('Stripe failed to initialize.');
+      }
+
+      setStatus('Preparing secure checkout...');
+      setInlineError('');
+      setCustomButtonVisible(false);
+
+      const session = startupClientSecret
+        ? {
+          clientSecret: startupClientSecret,
+          checkoutUrl: startupCheckoutUrl,
+          uiMode: requestedUiMode,
+        }
+        : await requestCheckoutSession(requestedUiMode);
+
+      if (!session.clientSecret) {
+        fallbackToHosted('No client secret available for embedded checkout.');
+        return;
+      }
+
+      const effectiveUiMode = normalizeUiMode(session.uiMode) || requestedUiMode;
+      if (effectiveUiMode === 'hosted') {
+        fallbackToHosted('Hosted checkout is required for this session.');
+        return;
+      }
+
+      if (effectiveUiMode === 'embedded') {
+        await startEmbeddedCheckout(stripe, session.clientSecret);
+        setStatus('Secure checkout loaded.');
+        return;
+      }
+
+      try {
+        await startCustomCheckout(stripe, session.clientSecret);
+        setStatus('Secure checkout loaded.');
+      } catch (customError) {
+        // If custom mode is unavailable for this account/browser, fallback.
+        await startEmbeddedCheckout(stripe, session.clientSecret);
+        setStatus('Secure checkout loaded.');
+      }
+    }
+
+    if (payButtonEl) {
+      payButtonEl.addEventListener('click', async () => {
+        if (!confirmActions || isSubmitting) {
+          return;
+        }
+        isSubmitting = true;
+        setInlineError('');
+        setStatus('Processing payment...');
+        setSubmitState(false);
+        try {
+          const result = await confirmActions.confirm();
+          const message = extractConfirmError(result);
+          if (message) {
+            setInlineError(message);
+            setStatus('Payment requires attention.', true);
+            isSubmitting = false;
+            setSubmitState(true);
+            return;
+          }
+
+          // Stripe usually redirects on success; keep the UI disabled while redirect starts.
+          setStatus('Redirecting to complete payment...');
+        } catch (error) {
+          const message =
+            error instanceof Error && error.message
+              ? error.message
+              : 'Unable to complete payment. Please retry.';
+          setInlineError(message);
+          setStatus(message, true);
+          isSubmitting = false;
+          setSubmitState(true);
+        }
+      });
+    }
+
+    startCheckout().catch((error) => {
+      const message =
+        error instanceof Error
+          ? error.message
+          : 'Unable to start secure checkout.';
+      setStatus(message, true);
+      setInlineError(message);
+    });
+  </script>
+</body>
+</html>

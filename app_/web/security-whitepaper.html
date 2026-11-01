@@ -1,0 +1,784 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Security Whitepaper: Encryption Architecture &amp; Boundaries | RonikCloud</title>
+    <meta name="description" content="Read the implementation-derived RonikCloud security whitepaper: exact encryption parameters, Personal and Business key flows, authorization controls, visible metadata, recovery, and explicit limitations.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://ronikcloud.com/security-whitepaper">
+    <link rel="stylesheet" href="/marketing.css">
+    <script src="/growth-attribution.js" defer></script>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <meta name="theme-color" content="#071329">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="RonikCloud">
+    <meta property="og:url" content="https://ronikcloud.com/security-whitepaper">
+    <meta property="og:title" content="RonikCloud security whitepaper">
+    <meta property="og:description" content="An implementation-derived technical overview of RonikCloud encryption, key flows, authorization, observable metadata, recovery, and limitations.">
+    <meta property="og:image" content="https://ronikcloud.com/images/ronikcloud-social-card-1200x630.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="RonikCloud private cloud storage">
+    <meta property="article:published_time" content="2026-08-11">
+    <meta property="article:modified_time" content="2026-08-11">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="RonikCloud security whitepaper">
+    <meta name="twitter:description" content="Exact cryptographic parameters, key flows, trust boundaries, observable metadata, and residual risks in the current implementation.">
+    <meta name="twitter:image" content="https://ronikcloud.com/images/ronikcloud-social-card-1200x630.png">
+    <meta name="twitter:image:alt" content="RonikCloud private cloud storage">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://ronikcloud.com/#organization",
+            "name": "RonikCloud",
+            "url": "https://ronikcloud.com/",
+            "logo": "https://ronikcloud.com/icons/Icon-512.png"
+          },
+          {
+            "@type": "TechArticle",
+            "@id": "https://ronikcloud.com/security-whitepaper#article",
+            "headline": "RonikCloud Security Whitepaper",
+            "description": "An implementation-derived public technical overview of RonikCloud encryption, key flows, authorization controls, visible metadata, recovery, and limitations.",
+            "datePublished": "2026-08-11",
+            "dateModified": "2026-08-11",
+            "mainEntityOfPage": "https://ronikcloud.com/security-whitepaper",
+            "isAccessibleForFree": true,
+            "author": {
+              "@id": "https://ronikcloud.com/#organization"
+            },
+            "publisher": {
+              "@id": "https://ronikcloud.com/#organization"
+            },
+            "image": "https://ronikcloud.com/images/ronikcloud-social-card-1200x630.png",
+            "about": [
+              "Client-side encryption",
+              "Cloud storage security",
+              "Key management",
+              "Authorization",
+              "Privacy boundaries"
+            ]
+          },
+          {
+            "@type": "WebPage",
+            "@id": "https://ronikcloud.com/security-whitepaper#webpage",
+            "url": "https://ronikcloud.com/security-whitepaper",
+            "name": "RonikCloud Security Whitepaper",
+            "description": "Implementation-derived technical documentation for the current RonikCloud security architecture.",
+            "isPartOf": {
+              "@id": "https://ronikcloud.com/#organization"
+            },
+            "mainEntity": {
+              "@id": "https://ronikcloud.com/security-whitepaper#article"
+            }
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://ronikcloud.com/security-whitepaper#faq-schema",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Is this whitepaper an independent security audit?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. It is an implementation-derived technical overview, not a third-party audit, certification, penetration-test report, formal proof, deployment attestation, or guarantee that every running environment uses this exact revision and configuration."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What does RonikCloud encrypt before storage?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "The current official client encrypts new protected file content and user-visible workspace labels before storage. Current-format collaboration text, password-share metadata, and encrypted file-request labels and payloads also have client-side protection described in this paper."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Does RonikCloud hide all metadata?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. The service and infrastructure providers can observe operational metadata such as object size, timing, opaque identifiers, access relationships, routing, lifecycle and subscription state, and ordinary network information."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can RonikCloud recover an advanced secure-mode passphrase?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. Advanced secure mode uses a separate passphrase that the service cannot recreate. The standard recovery kit does not contain that passphrase, so losing it can make advanced-mode files permanently unreadable."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body data-growth-entry-page="security_whitepaper">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href="/" aria-label="RonikCloud home">
+          <span>RonikCloud</span>
+        </a>
+        <nav class="site-nav" aria-label="Primary navigation"><a href="/resources">Resources</a><a href="/support">Support</a></nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero paper-hero">
+        <div class="shell hero-grid">
+          <div>
+
+            <h1>RonikCloud security architecture, described without absolutes.</h1>
+            <p class="hero-copy">
+              This technical overview documents the current client-side
+              encryption design, key flows, authorization controls, service-visible
+              metadata, recovery model, and residual risks represented by the
+              repository revision dated 11 August 2026.
+            </p>
+            <div class="actions">
+              <a class="button" href="#threat-model">Read the threat model</a>
+              <a class="button secondary" href="/" data-growth-cta-placement="hero">Open RonikCloud</a>
+            </div>
+          </div>
+          <aside class="hero-panel" aria-label="Whitepaper status">
+            <p class="panel-kicker">Assurance status</p>
+            <dl class="paper-meta">
+              <div><dt>Status</dt><dd>Public technical overview</dd></div>
+              <div><dt>Revision</dt><dd>2026-08-11</dd></div>
+              <div><dt>Basis</dt><dd>Current repository implementation</dd></div>
+              <div><dt>Independent audit</dt><dd>No</dd></div>
+            </dl>
+          </aside>
+        </div>
+      </section>
+
+      <div class="trust-strip" aria-label="Whitepaper coverage">
+        <div class="shell trust-grid">
+          <div class="trust-item"><strong>Exact parameters</strong><span>Ciphers, KDFs, key sizes, and formats</span></div>
+          <div class="trust-item"><strong>Separated key flows</strong><span>Personal, Business, shares, and requests</span></div>
+          <div class="trust-item"><strong>Visible metadata</strong><span>What service operation still requires</span></div>
+          <div class="trust-item"><strong>Explicit limits</strong><span>Threats the design does not solve</span></div>
+        </div>
+      </div>
+
+      <section class="section compact">
+        <div class="shell">
+          <div class="assurance-banner" role="note" aria-label="Assurance limitation">
+            <strong>Important assurance boundary.</strong>
+            This is not a third-party audit, certification, penetration-test
+            report, formal proof, deployment attestation, or guarantee that every
+            running environment uses this exact revision and configuration. It
+            does not make a global zero-knowledge or end-to-end-encryption claim.
+          </div>
+        </div>
+      </section>
+
+      <section class="section paper-section">
+        <div class="shell paper-layout">
+          <aside class="paper-toc" aria-label="Whitepaper contents">
+            <p class="panel-kicker">Contents</p>
+            <ol>
+              <li><a href="#purpose">Purpose and assurance</a></li>
+              <li><a href="#scope">Scope and trust boundary</a></li>
+              <li><a href="#threat-model">Threat model</a></li>
+              <li><a href="#cryptography">Cryptographic building blocks</a></li>
+              <li><a href="#key-flows">Data and key flows</a></li>
+              <li><a href="#authorization">Authorization and service controls</a></li>
+              <li><a href="#observable-data">What remains observable</a></li>
+              <li><a href="#logging">Logging and analytics</a></li>
+              <li><a href="#limitations">Limitations and non-goals</a></li>
+              <li><a href="#verification">Verification and source status</a></li>
+              <li><a href="#faq">Questions</a></li>
+            </ol>
+          </aside>
+
+          <article class="paper-article" aria-labelledby="paper-title">
+            <div id="purpose" class="paper-anchor"></div>
+
+            <h2 id="paper-title">A reviewable description of the implemented design.</h2>
+            <p>
+              RonikCloud's official client encrypts new file contents and
+              user-visible workspace labels before storage. The design separates
+              Personal standard encryption, Personal advanced secure mode,
+              shared/group Business encryption, password shares, and file requests
+              into distinct key flows. Authentication, authorization, quota
+              enforcement, lifecycle state, and sharing policy remain service
+              functions and therefore require service-visible metadata.
+            </p>
+            <p>
+              The implementation references included throughout this paper are the
+              evidence for those statements. The high-level module boundary is in
+              <code>docs/ARCHITECTURE.md</code>; the upload guard and cipher
+              selection are in
+              <code>app_/lib/src/storage/wasabi_storage_service.dart</code> and
+              <code>app_/lib/src/security/encryption_service.dart</code>.
+            </p>
+            <p>
+              RonikCloud's internal adversarial review records implemented controls
+              and remaining risks. It describes itself as defensive testing and
+              prioritization, not an audit. Some internal protocol identifiers still
+              use the historical <code>ronikdrive</code> name; those are compatibility
+              identifiers in the RonikCloud implementation, not separate products.
+            </p>
+            <p class="evidence"><strong>Implementation references:</strong> <code>docs/ADVERSARIAL_SECURITY_REVIEW.md</code>, <code>app_/lib/src/security/encryption_service.dart</code>, <code>app_/lib/src/security/business_encryption_service.dart</code>.</p>
+
+            <section id="scope" class="paper-block">
+
+              <h2>What this paper covers, trusts, and excludes.</h2>
+              <p>This paper covers:</p>
+              <ul>
+                <li>encryption and key derivation in the Flutter client;</li>
+                <li>cloud metadata and object-storage formats;</li>
+                <li>Personal and Business authorization;</li>
+                <li>password-protected public links and encrypted file requests;</li>
+                <li>recovery kits, local protected state, logging, and aggregate growth analytics; and</li>
+                <li>tests and continuous-integration checks that exercise those contracts.</li>
+              </ul>
+              <p>
+                The primary components are the Flutter app in <code>app_/</code>,
+                Firebase Functions in <code>functions_/</code>, Firestore rules in
+                <code>firestore.rules</code>, and Wasabi-compatible S3 object storage.
+                Optional cache/cold-storage services and the experimental Cloudflare
+                Worker are not included in this paper's confidentiality assurance.
+                The Worker remains a separately gated prototype.
+              </p>
+              <p>
+                The design trusts the user's endpoint while it is unlocked, the
+                delivered application code, its cryptographic dependency, Firebase
+                Authentication and service infrastructure, and the device credential
+                store. The locked-data design does not protect against malware or a
+                malicious browser extension on an unlocked endpoint, a compromised
+                release/update channel, an authorized recipient who saves plaintext,
+                or a user who discloses a password, link secret, recovery kit, or
+                decrypted export.
+              </p>
+              <p>
+                Local standard keys are persisted through
+                <code>FlutterSecureStorage</code>. The login password is retained only
+                in app memory. Android requests encrypted shared preferences; iOS and
+                macOS request a device-bound keychain accessibility class.
+              </p>
+              <p class="evidence"><strong>Implementation references:</strong> <code>README.md</code>, <code>docs/ADVERSARIAL_SECURITY_REVIEW.md</code>, <code>server_/cloudflare_workers/worker.js</code>, <code>app_/lib/src/authentication/login_password_vault.dart</code>.</p>
+            </section>
+
+            <section id="threat-model" class="paper-block">
+
+              <h2>Threats the current controls are designed to reduce.</h2>
+              <p>RonikCloud is designed to reduce the effect of:</p>
+              <ul>
+                <li>an object-storage or database observer attempting to read new file content, filenames, folder labels, comments, review notes, or file-request labels;</li>
+                <li>an authenticated user attempting to read another Personal prefix or a Business scope they are not currently assigned;</li>
+                <li>a person who has only a public share URL, or who has a file-request URL without its fragment key and attempts to read the protected request title or create an owner-decryptable submission;</li>
+                <li>accidental disclosure through application diagnostics and support records;</li>
+                <li>ciphertext modification or metadata-envelope transplantation; and</li>
+                <li>repeated public or authenticated requests intended to amplify egress or service cost.</li>
+              </ul>
+              <p>
+                The corresponding controls are client-side authenticated encryption,
+                domain-separated keyed identifiers, per-recipient Business envelopes,
+                Firebase identity and Firestore rules, live Business membership checks,
+                short-lived signed object requests, request budgets, and bounded
+                rate-limit records.
+              </p>
+              <p>
+                The model does not conceal traffic timing, IP or network information,
+                object sizes, request volume, account and membership relationships, or
+                all lifecycle state from RonikCloud and its infrastructure providers.
+                It is a confidentiality-and-integrity design for protected payloads,
+                not an anonymity system, traffic-analysis defense, availability
+                guarantee, or digital-rights-management system.
+              </p>
+              <p class="evidence"><strong>Implementation references:</strong> <code>app_/lib/src/security/workspace_metadata_encryption_service.dart</code>, <code>app_/lib/src/security/business_encryption_service.dart</code>, <code>firestore.rules</code>, <code>functions_/storage_object_policy.js</code>, <code>functions_/share_access_policy.js</code>, <code>functions_/file_access_privacy.js</code>.</p>
+            </section>
+
+            <section id="cryptography" class="paper-block">
+
+              <h2>Parameters are explicit and tied to versioned formats.</h2>
+              <p>
+                The client pins the Dart <code>cryptography</code> package at version
+                <code>2.8.0</code>. The following parameters are explicit in current
+                RonikCloud code.
+              </p>
+              <div class="table-scroll" tabindex="0" role="region" aria-label="Cryptographic building blocks">
+                <table class="technical-table">
+                  <thead>
+                    <tr><th scope="col">Purpose</th><th scope="col">Construction and parameters</th><th scope="col">Implementation evidence</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><th scope="row">Password and passphrase derivation</th><td>PBKDF2-HMAC-SHA-256, 300,000 iterations, 256-bit output.</td><td><code>encryption_service.dart</code></td></tr>
+                    <tr><th scope="row">Standard account salt</th><td>16 random bytes, normally generated by an authenticated Node callable with <code>crypto.randomBytes</code>; if that callable is unavailable, the official client can generate the same-length salt with Dart <code>Random.secure()</code> in an authenticated Firestore transaction. The salt is stored as Base64 in the user's profile.</td><td><code>functions_/index.js</code>, <code>encryption_setup_privacy.js</code>, <code>workspace_home_page.dart</code></td></tr>
+                    <tr><th scope="row">File content and generic binary envelopes</th><td>AES-CTR with a 256-bit key and HMAC-SHA-256 authentication; encoded as algorithm nonce, ciphertext, then MAC.</td><td><code>encryption_service.dart</code>, <code>wasabi_storage_service.dart</code></td></tr>
+                    <tr><th scope="row">File and standard folder labels</th><td>AES-256-GCM; <code>enc--</code> plus unpadded Base64url of a 12-byte nonce, ciphertext, and 16-byte tag.</td><td><code>encryption_service.dart</code>, <code>workspace_metadata_encryption_service.dart</code></td></tr>
+                    <tr><th scope="row">Queryable protected metadata</th><td>HMAC-SHA-256 with separate domain strings for backup paths, local paths, content-integrity tags, folder IDs, and secure shard names.</td><td><code>workspace_metadata_encryption_service.dart</code>, <code>encryption_service.dart</code></td></tr>
+                    <tr><th scope="row">Business recipient envelopes</th><td>X25519 with an ephemeral sender key; HKDF-HMAC-SHA-256 with 32-byte output, fixed protocol salt, and context containing object key, recipient UID, and key ID. The wrapping key protects the 32-byte file key with AES-CTR/HMAC-SHA-256.</td><td><code>business_encryption_service.dart</code></td></tr>
+                    <tr><th scope="row">Business company and group labels</th><td>Random 32-byte metadata key, AES-256-GCM, and one X25519/HKDF envelope per recipient.</td><td><code>business_metadata_encryption.dart</code>, <code>business_encryption_service.dart</code></td></tr>
+                    <tr><th scope="row">Collaboration text</th><td>File-scoped HKDF-HMAC-SHA-256, 32-byte output, then AES-256-GCM with additional data binding file, record, kind, and actor.</td><td><code>file_collaboration_encryption.dart</code></td></tr>
+                    <tr><th scope="row">Recovery kit</th><td>PBKDF2-HMAC-SHA-256 at 300,000 iterations with a 16-byte random salt; AES-256-GCM with a 12-byte nonce, 16-byte tag, and format/version additional data.</td><td><code>encryption_recovery_kit.dart</code></td></tr>
+                    <tr><th scope="row">App-layer TOTP</th><td>Base32 secret, HMAC-SHA-1 HOTP calculation, six digits, 30-second period, verification window of one period on either side; successful verification creates a 12-hour app-layer session.</td><td><code>functions_/config.js</code>, <code>functions_/index.js</code></td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p>
+                Algorithm identifiers are versioned in stored records so readers can
+                reject unsupported formats. The implementation does not advertise
+                algorithm agility as a security property; changing a format requires
+                an explicit migration and compatibility plan.
+              </p>
+              <p class="evidence"><strong>Implementation references:</strong> <code>app_/pubspec.lock</code>, <code>firestore.rules</code>, <code>functions_/business_encryption_identity.js</code>, <code>functions_/file_request_privacy.js</code>.</p>
+            </section>
+
+            <section id="key-flows" class="paper-block">
+
+              <h2>Different workflows use deliberately separate key paths.</h2>
+
+              <section id="personal-standard" class="paper-subsection">
+                <h3>Personal standard encryption</h3>
+                <p>
+                  After email/password sign-in, the client normally obtains the
+                  account's random salt through an authenticated empty-payload
+                  callable. If that callable is unavailable, the official client can
+                  generate the same 16-byte salt with Dart <code>Random.secure()</code>
+                  and create the profile value in an authenticated Firestore
+                  transaction. Neither path sends the password. The client locally
+                  derives the 256-bit standard key from the sign-in password. The
+                  callable receives no client identity fields beyond the authenticated
+                  Firebase context. The derived key, not the password, may be persisted
+                  in the device credential store so a restored Firebase session can
+                  open standard content.
+                </p>
+                <p>
+                  For new Personal standard uploads, the official client encrypts the
+                  filename with AES-256-GCM and the bytes with
+                  AES-CTR/HMAC-SHA-256 before uploading as
+                  <code>application/octet-stream</code>. Upload is blocked in the
+                  storage service unless an encryption key is supplied or the caller
+                  explicitly marks a payload as already encrypted.
+                </p>
+                <p>
+                  New object keys use an owner scope followed by an opaque
+                  <code>/objects/&lt;shard&gt;/&lt;shard&gt;/&lt;token&gt;</code>
+                  shape. That routing token is not an authorization credential. The
+                  metadata callable receives the object key, encrypted label, size,
+                  encryption mode, storage layout, folder ID, keyed backup and
+                  integrity tags when applicable, and lifecycle and scope fields; it
+                  rejects readable folder names, colors, and path segments.
+                </p>
+                <p>
+                  Folder labels use the same authenticated label encryption. Stable
+                  folder and backup identities use keyed HMAC tags so the service can
+                  query or reconcile them without receiving the source label or raw
+                  content digest. Parent relationships and opaque folder IDs remain
+                  visible because navigation and access control require them.
+                </p>
+                <p class="evidence"><strong>Implementation references:</strong> <code>login_page.dart</code>, <code>encryption_setup_service.dart</code>, <code>encryption_setup_privacy.js</code>, <code>workspace_home_page.dart</code>, <code>login_password_vault.dart</code>, <code>wasabi_storage_service.dart</code>, <code>background_backup_runner.dart</code>, <code>upload_metadata_service.dart</code>, <code>upload_contracts.js</code>.</p>
+              </section>
+
+              <section id="advanced-mode" class="paper-subsection">
+                <h3>Personal advanced secure mode</h3>
+                <p>
+                  Advanced secure mode uses a separate user-entered passphrase and a
+                  separate 16-byte salt, with the same PBKDF2 parameters. The
+                  passphrase and derived key are held in the active client session;
+                  the profile stores the salt, not a recoverable advanced-mode
+                  password. The mode is not available for shared/group Business
+                  uploads.
+                </p>
+                <p>
+                  The client encrypts the entire file once with
+                  AES-CTR/HMAC-SHA-256, then splits that ciphertext into 4 MiB storage
+                  shards. Each shard's provider key includes an HMAC-SHA-256 token
+                  derived from the secure key, base object key, and shard index.
+                  Sharding is an opaque storage layout; it is not erasure coding,
+                  independent per-shard encryption, secret sharing, or a substitute
+                  for the cryptographic layer.
+                </p>
+                <p class="evidence"><strong>Implementation references:</strong> <code>workspace_home_page.dart</code>, <code>user_documentation_page.dart</code>, <code>secure_shard_assembler.dart</code>.</p>
+              </section>
+
+              <section id="business-encryption" class="paper-subsection">
+                <h3>Business encryption</h3>
+                <p>
+                  Company-private storage follows the account's Personal standard-key
+                  path. Company-shared and group storage instead use a fresh random
+                  32-byte key per file. Content and filename are encrypted with that
+                  file key, and upload proceeds only when the client has a complete
+                  recipient set for currently authorized, encryption-ready members.
+                  Advanced secure mode is deliberately disallowed in shared Business
+                  spaces because per-member file keys are the sharing mechanism there.
+                </p>
+                <p>
+                  Each member has an X25519 identity. The public key and key ID are
+                  service-visible; the 32-byte private seed is wrapped under that
+                  member's standard account key using AES-CTR/HMAC-SHA-256. A file key
+                  is wrapped separately for each recipient using a fresh ephemeral
+                  X25519 key and context-bound HKDF output. Company and group display
+                  metadata has its own random AES-GCM key and recipient envelopes.
+                </p>
+                <p>
+                  Business authorization and cryptographic access are related but not
+                  identical. Firestore and Functions can remove a member's live access
+                  immediately, while removing knowledge already delivered to a device
+                  requires client-side content and key rotation. Rotation creates a
+                  fresh encrypted object and complete envelope set; reconciliation
+                  counters let another authorized device discover unfinished work
+                  without storing a readable task description. Revocation cannot erase
+                  plaintext or keys already exported or retained by a former authorized
+                  recipient.
+                </p>
+                <p class="evidence"><strong>Implementation references:</strong> <code>business_encryption_registry.dart</code>, <code>business_encryption_service.dart</code>, <code>business_metadata_encryption.dart</code>, <code>business_encryption_identity.js</code>, <code>business_key_rotation.js</code>, <code>business_reconciliation_state.js</code>.</p>
+              </section>
+
+              <section id="collaboration" class="paper-subsection">
+                <h3>Comments and reviews</h3>
+                <p>
+                  New comment author names, comment bodies, mention addresses,
+                  reviewer names, and review notes are encrypted on the client with a
+                  file-scoped derived key. Additional authenticated data prevents a
+                  valid envelope from being moved to a different file, record, actor,
+                  or record type. The service still sees file and actor IDs, review
+                  status, record timestamps, and ciphertext so it can authorize reads,
+                  enforce authorship, and route minimal mention notifications.
+                </p>
+                <p class="evidence"><strong>Implementation references:</strong> <code>file_collaboration_encryption.dart</code>, <code>file_collaboration_privacy.js</code>.</p>
+              </section>
+
+              <section id="password-shares" class="paper-subsection">
+                <h3>Password shares</h3>
+                <p>
+                  Creating a new password share downloads and decrypts the source on
+                  the sender's device, generates a 24-byte random URL token, an 18-byte
+                  random password value formatted for display, and a 16-byte salt,
+                  then re-encrypts the shared copy and its filename and content-type
+                  envelope with a password-derived key. New links store KDF parameters,
+                  encrypted metadata, expiry rounded up to an hour, owner/source
+                  references, revocation state, request count and budget, and an
+                  HMAC-SHA-256 verifier derived from the share key and URL token. The
+                  default UI budget is ten encrypted-payload requests; owner controls
+                  expose other bounded values.
+                </p>
+                <p>
+                  The public metadata API returns an allowlisted response. The
+                  recipient derives the key and authenticates and decrypts the metadata
+                  before requesting file bytes. For current links, the recipient also
+                  submits the token-bound HMAC proof, which the server compares before
+                  reserving budget or reading storage. The password and share key are
+                  not sent to that API.
+                </p>
+                <p>
+                  Possession of both link and password is sufficient to decrypt the
+                  shared copy. A party that obtains ciphertext can attempt password
+                  guesses offline; server throttling is not a substitute for a
+                  high-entropy password. Legacy proofless links remain compatible and
+                  should be recreated.
+                </p>
+                <p class="evidence"><strong>Implementation references:</strong> <code>workspace_home_page.dart</code>, <code>share_metadata_envelope.dart</code>, <code>share_link_security.dart</code>, <code>password_share_page.dart</code>, <code>share_access_policy.js</code>.</p>
+              </section>
+
+              <section id="file-requests" class="paper-subsection">
+                <h3>Encrypted file requests</h3>
+                <p>
+                  The owner creates a random 32-byte request key. One copy is carried
+                  in the URL fragment for the uploader, and another is encrypted under
+                  the owner's standard key and stored in an owner-readable secret
+                  record. The request title, submitted filename, MIME type, and
+                  submitted file bytes are encrypted with the request key. The browser
+                  reads the fragment locally; its metadata request body is empty, so
+                  the fragment key is not transmitted to the API.
+                </p>
+                <p>
+                  The service generates a separate 24-byte random request token and
+                  stores owner identity, encrypted title and owner key envelope, coarse
+                  expiry, file-size and upload limits, counts, status, ciphertext
+                  object identity, and completion state. The public response excludes
+                  UID, object keys, internal timestamps, and plaintext labels. The
+                  complete URL, including its fragment key, is needed to read the
+                  protected title and create files the owner can decrypt. The server
+                  does not verify possession of that fragment key: a token-only holder
+                  can still reach the bounded authorization and upload endpoints,
+                  submit opaque data that the owner cannot use, and consume bounded
+                  upload slots. Fragment secrecy protects confidentiality and usable
+                  submission creation; it is not server-verified authorization or an
+                  identity check.
+                </p>
+                <p class="evidence"><strong>Implementation references:</strong> <code>workspace_home_page.dart</code>, <code>file_request_upload_page.dart</code>, <code>file_request_metadata_envelope.dart</code>, <code>functions_/index.js</code>, <code>file_request_privacy.js</code>, <code>firestore.rules</code>.</p>
+              </section>
+
+              <section id="recovery" class="paper-subsection">
+                <h3>Recovery kits and local plaintext</h3>
+                <p>
+                  A recovery kit contains the standard key, account UID, environment
+                  ID, account encryption salt, and creation time inside AES-256-GCM
+                  authenticated ciphertext. Only format and version, KDF salt and
+                  parameters, nonce, ciphertext, and tag are outside it. Creation and
+                  restore run locally, require a recovery passphrase of at least 16
+                  characters with at least six distinct code points, and validate
+                  account, environment, and salt before accepting the key. Account
+                  Security also requires password reauthentication and a current TOTP
+                  code when app-layer 2FA is enabled, and rejects use of the account
+                  password as the recovery passphrase.
+                </p>
+                <p>
+                  The kit does not recover the advanced secure-mode passphrase.
+                  RonikCloud does not upload the kit in this flow, but the operating
+                  system share or export destination is controlled by the user.
+                  Existing copies cannot be revoked independently; a person with the
+                  kit, its passphrase, and access to the matching account can restore
+                  the standard key.
+                </p>
+                <p>
+                  Opening or sharing through another native application can require a
+                  temporary plaintext handoff file. RonikCloud creates it under an
+                  opaque lease directory, applies mode <code>0700</code>/<code>0600</code>
+                  on Linux and macOS, defaults to a 30-minute lease, retries stale
+                  cleanup, and exposes a manual clear action. Windows permissions rely
+                  on the platform temporary-directory and account controls; a receiving
+                  app may keep its own copy or recent-file record.
+                </p>
+                <p>
+                  Device-local workspace state is protected separately with random
+                  AES-256-GCM keys in the platform credential store and account and
+                  namespace additional data. Native offline file bodies use chunked
+                  AES-256-GCM with per-object HMAC-SHA-256-derived keys bound to
+                  account/environment, object key, and optionally the workspace file
+                  key. These controls depend on the security of the operating system,
+                  credential store, and unlocked session.
+                </p>
+                <p class="evidence"><strong>Implementation references:</strong> <code>encryption_recovery_kit.dart</code>, <code>security_settings_page.dart</code>, <code>temporary_plaintext_lease_native.dart</code>, <code>temporary_plaintext_files_control.dart</code>, <code>local_private_cache.dart</code>, <code>local_offline_vault_native.dart</code>.</p>
+              </section>
+            </section>
+
+            <section id="authorization" class="paper-block">
+
+              <h2>Encryption and authorization solve different parts of access.</h2>
+              <p>
+                Firebase Authentication establishes the account identity used by the
+                client, Functions, and Firestore. Firestore rules default-deny
+                unmatched paths. Personal file reads require ownership. Business reads
+                require active membership plus matching <code>allowedUids</code> and
+                scope/group policy. Direct client creation of file records is denied,
+                TOTP and storage-credential private documents are inaccessible to
+                clients, and company administration documents are server-only in rules.
+              </p>
+              <p>
+                The storage authorization endpoint verifies a Firebase ID token,
+                checks the Personal prefix or current Business membership, scope, role
+                permissions, and group assignment, then issues a GET, PUT, or DELETE
+                signed URL for 60&ndash;600 seconds, with 300 seconds by default. The
+                upload-finalization callable rechecks ownership and scope, rejects
+                readable path fields, performs an S3 <code>HEAD</code> check for
+                single-object uploads unless explicitly disabled, and applies quota
+                and replay rules before creating canonical metadata.
+              </p>
+              <p>
+                Current clients request server-managed Personal and Business storage
+                access. A compatibility response can still return prefix-limited direct
+                Personal credentials to older clients that do not declare
+                server-managed Personal support, and compile-time direct credentials
+                have a production-only escape hatch. A compromised device holding
+                direct credentials can act inside that prefix until the credentials are
+                revoked; this is a documented residual risk.
+              </p>
+              <p>
+                Selected callable endpoints request Firebase App Check when the
+                deployment environment sets <code>ENFORCE_APP_CHECK=true</code>. It is
+                a configurable deployment control, not an unconditional property of
+                this source tree. Public and authenticated routes invoke per-token,
+                per-UID, per-IP, or combined rate limits, but an operational environment
+                switch can disable those limits. Deployment configuration must be
+                verified independently.
+              </p>
+              <p>
+                RonikCloud's app-layer TOTP secret is server-readable in
+                <code>users/{uid}/private/security</code>, where client rules deny
+                access. TOTP supplements Firebase Authentication for sensitive app
+                actions. It is not the source of file-encryption keys and is not
+                described here as phishing-resistant MFA.
+              </p>
+              <p class="evidence"><strong>Implementation references:</strong> <code>firestore.rules</code>, <code>functions_/index.js</code>, <code>storage_object_policy.js</code>, <code>upload_contracts.js</code>, <code>wasabi_provisioning_service.dart</code>, <code>storage_provisioning_response.js</code>, <code>abuse_rate_limit.js</code>, <code>two_factor_service.dart</code>.</p>
+            </section>
+
+            <section id="observable-data" class="paper-block">
+
+              <h2>Protected payloads do not eliminate operational metadata.</h2>
+              <div class="table-scroll" tabindex="0" role="region" aria-label="Service-visible and protected data">
+                <table class="technical-table visibility-table">
+                  <thead>
+                    <tr><th scope="col">Area</th><th scope="col">Service or provider-visible data</th><th scope="col">Protected from normal service processing in current-format flows</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><th scope="row">Account</th><td>Firebase UID and authentication claims, account email at authentication and business-directory boundaries, subscription and security state, and per-account encryption salts.</td><td>The sign-in password is not included in the encryption-setup request; derived standard and secure keys are not uploaded by that flow.</td></tr>
+                    <tr><th scope="row">Files and folders</th><td>Object key and prefix, ciphertext size, owner/company/group/access IDs, parent and opaque folder IDs, encryption/layout/version markers, quota and lifecycle state, transfer timing, and network logs.</td><td>New file content, filename, folder label, local path, and raw local digest.</td></tr>
+                    <tr><th scope="row">Business</th><td>Company/member/group relationships, roles, permissions, public X25519 keys and key IDs, wrapped private identity, per-recipient envelopes, and rotation generation.</td><td>File and metadata keys, X25519 private seed in plaintext, and new content and labels.</td></tr>
+                    <tr><th scope="row">Password shares</th><td>URL token, creator/source references, KDF salt and parameters, encrypted metadata, proof verifier, expiry, request budget/count, revocation and one-bit alert state. Storage sees derivative object key, size, timing, and requests.</td><td>Password, share key, current-format filename and content type, and plaintext shared bytes.</td></tr>
+                    <tr><th scope="row">File requests</th><td>Request token, owner, encrypted title and owner key envelope, expiry, size/upload limits and counts, upload status/object identity, and traffic metadata.</td><td>URL-fragment request key, current-format title, submitted filename and MIME type, and plaintext bytes.</td></tr>
+                    <tr><th scope="row">Collaboration</th><td>File, record, and actor IDs, review status, timestamps, encrypted payload, and minimal routing IDs.</td><td>Current-format names, comment and review text, and mention addresses.</td></tr>
+                    <tr><th scope="row">Recovery kit</th><td>No recovery-kit record is created by the RonikCloud service flow.</td><td>Account and environment binding and the standard key remain inside the user-exported encrypted kit.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p>
+                Infrastructure providers can still retain ordinary access, request,
+                error, billing, and abuse-prevention logs subject to their
+                configuration and policies. Encryption does not hide object length or
+                traffic patterns.
+              </p>
+            </section>
+
+            <section id="logging" class="paper-block">
+
+              <h2>Minimization controls reduce exposure without claiming anonymity.</h2>
+              <p>
+                Backend logging helpers replace UIDs and object keys with short
+                deterministic support and object references and reduce provider errors
+                to fixed categories plus an optional HTTP status. Client debug output
+                is disabled outside debug builds and passes through a redactor for
+                credentials, tokens, emails, URLs, object references, encrypted labels,
+                file names, and paths. These are defense-in-depth filters, not proof
+                that every external platform log is free of sensitive metadata.
+              </p>
+              <p>
+                Manual support reports are intentionally readable to support, but their
+                schema omits direct UID and email fields, substitutes an opaque support
+                code, applies client and server redaction, restricts platform and build
+                values, and sets bounded retention. Users should still avoid entering
+                secrets or sensitive content in report text.
+              </p>
+              <p>
+                Growth analytics accepts a closed vocabulary of events, sources, and
+                enumerated dimensions and writes daily aggregates. Product activation
+                uses a server-only per-account deduplication marker, while the aggregate
+                record contains counts rather than a user event stream. This is data
+                minimization, not anonymity from the service while the deduplication
+                transaction is running.
+              </p>
+              <p class="evidence"><strong>Implementation references:</strong> <code>privacy_logging.js</code>, <code>privacy_debug_logging.dart</code>, <code>privacy_redaction.dart</code>, <code>support_report_privacy.js</code>, <code>support_report_privacy.dart</code>, <code>growth_analytics.js</code>, <code>firestore.rules</code>.</p>
+            </section>
+
+            <section id="limitations" class="paper-block">
+
+              <h2>Security properties depend on passwords, clients, configuration, and use.</h2>
+              <ul class="limitation-list">
+                <li><strong>Password strength remains critical.</strong> Anyone who obtains a standard or share ciphertext and its visible salt can test password guesses offline. 300,000-round PBKDF2 raises cost but does not rescue a weak password. A Firebase password change does not itself re-encrypt existing standard data; a retained device key or matching recovery kit is needed when the prior derived key is unavailable.</li>
+                <li><strong>Advanced secure mode is deliberately unrecoverable by the service.</strong> Loss of its passphrase can make those files permanently unreadable. The standard recovery kit does not contain it.</li>
+                <li><strong>Authorization revocation cannot retract knowledge.</strong> Removing a Business member or revoking a share blocks future service-mediated access, but cannot delete plaintext, ciphertext, passwords, or keys already copied to another device. Business cryptographic removal depends on successful rotation and reconciliation.</li>
+                <li><strong>Legacy compatibility exists.</strong> Older readable workspace and collaboration metadata and proofless share links have migration or compatibility paths. New schemas reject reintroduction in many places, but users should recreate legacy links and complete migrations before assuming current-format properties apply to every historical record.</li>
+                <li><strong>The server cannot prove bytes are semantically encrypted.</strong> The official client enforces encryption before upload and the backend validates formats, scope, provider existence, and declared encryption metadata. A modified authorized client can still place arbitrary bytes in its permitted storage prefix. Metadata flags are not remote cryptographic attestation.</li>
+                <li><strong>Metadata and availability remain service responsibilities.</strong> The service can observe the metadata listed above, deny access, delete or fail to return ciphertext, and deploy changed client code. This design does not provide anonymous access, censorship resistance, immutable storage, guaranteed deletion, or defense against a compromised trusted endpoint or release channel.</li>
+                <li><strong>Cryptographic claims are implementation-specific.</strong> They apply to the versioned formats and official-client paths described here, not to files exported in plaintext, third-party copies, manual support text, experimental services, or a differently configured deployment.</li>
+              </ul>
+              <div class="assurance-banner" role="note">
+                <strong>No audit or certification claim.</strong>
+                These limitations are part of the security description. The paper does
+                not assert formal certification, independent verification, universal
+                zero knowledge, metadata-free operation, or secure behavior from
+                modified clients and differently configured deployments.
+              </div>
+            </section>
+
+            <section id="verification" class="paper-block">
+
+              <h2>Tests exercise contracts; they are not deployment attestations.</h2>
+              <p>
+                The repository contains focused Flutter tests for encryption
+                primitives, recovery kits, Business identities and metadata,
+                share and file-request envelopes, collaboration binding, secure-shard
+                assembly, local cache and vault behavior, upload metadata, and
+                server-managed storage. Representative suites include
+                <code>encryption_service_test.dart</code>,
+                <code>encryption_recovery_kit_test.dart</code>,
+                <code>business_encryption_service_test.dart</code>,
+                <code>share_metadata_envelope_test.dart</code>,
+                <code>file_request_metadata_envelope_test.dart</code>,
+                <code>file_collaboration_encryption_test.dart</code>, and
+                <code>local_offline_vault_test.dart</code>.
+              </p>
+              <p>
+                Functions tests exercise authorization and policy modules, privacy
+                allowlists, Business key rotation, storage object policy, upload
+                contracts, and Firestore rules. Representative suites include
+                <code>share_access_policy_unit_test.js</code>,
+                <code>file_request_privacy_unit_test.js</code>,
+                <code>business_key_rotation_unit_test.js</code>,
+                <code>upload_contracts_unit_test.js</code>, and
+                <code>firestore_rules_smoke_test.js</code>.
+              </p>
+              <p>
+                Continuous integration is configured to analyze and test Flutter,
+                lint and unit-test Functions, run Firestore emulator tests, audit Node
+                and Python dependencies, run Bandit, build network-isolated non-root
+                containers, and scan Git history for secrets. CI configuration is
+                evidence of intended verification, not evidence that a particular
+                deployment passed a particular run unless the corresponding CI result
+                is independently checked.
+              </p>
+              <p>
+                Repository-path references make this paper reviewable against source,
+                but this document does not assert that the repository is publicly
+                licensed or that source availability itself constitutes independent
+                assurance. Security reports can be sent to
+                <a href="mailto:support@ronikcloud.com?subject=RonikCloud%20security%20report">support@ronikcloud.com</a>.
+              </p>
+              <p class="evidence"><strong>Implementation reference:</strong> <code>.github/workflows/security_checks.yml</code>. <strong>Security contact:</strong> <a href="/.well-known/security.txt">security.txt</a>.</p>
+            </section>
+
+            <section id="faq" class="paper-block">
+
+              <h2>Security whitepaper FAQ</h2>
+              <div class="faq">
+                <details>
+                  <summary>Is this whitepaper an independent security audit?</summary>
+                  <p>No. It is an implementation-derived technical overview, not a third-party audit, certification, penetration-test report, formal proof, deployment attestation, or guarantee that every running environment uses this exact revision and configuration.</p>
+                </details>
+                <details>
+                  <summary>What does RonikCloud encrypt before storage?</summary>
+                  <p>The current official client encrypts new protected file content and user-visible workspace labels before storage. Current-format collaboration text, password-share metadata, and encrypted file-request labels and payloads also have the client-side protections described above.</p>
+                </details>
+                <details>
+                  <summary>Does RonikCloud hide all metadata?</summary>
+                  <p>No. The service and infrastructure providers can observe operational metadata such as object size, timing, opaque identifiers, access relationships, routing, lifecycle and subscription state, and ordinary network information.</p>
+                </details>
+                <details>
+                  <summary>Can RonikCloud recover an advanced secure-mode passphrase?</summary>
+                  <p>No. Advanced secure mode uses a separate passphrase that the service cannot recreate. The standard recovery kit does not contain that passphrase, so losing it can make advanced-mode files permanently unreadable.</p>
+                </details>
+              </div>
+            </section>
+          </article>
+        </div>
+      </section>
+
+      <section class="section compact">
+        <div class="shell final-cta">
+
+          <h2>Use the boundaries, not a slogan, to decide whether RonikCloud fits.</h2>
+          <p>Review the practical storage overview, try the current client, or join the founding tester cohort and report what you find.</p>
+          <div class="actions">
+            <a class="button" href="/secure-cloud-storage">Read the secure-storage overview</a>
+            <a class="button secondary" href="/testers" data-growth-cta-placement="final">Become a tester</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell footer-inner">
+        <span>RonikCloud &mdash; implementation-derived security documentation.</span>
+        <nav class="footer-links" aria-label="Footer navigation">
+          <a href="/secure-cloud-storage">Secure storage</a>
+          <a href="/encrypted-file-sharing">Encrypted sharing</a>
+          <a href="/encrypted-file-request">File requests</a>
+          <a href="/press-kit">Press kit</a>
+          <a href="/support">Support</a>
+          <a href="/privacy">Privacy</a>
+          <a href="/terms">Terms</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>

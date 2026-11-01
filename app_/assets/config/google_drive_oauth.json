@@ -1,0 +1,7 @@
+{
+  "clientId": "",
+  "redirectUri": "https://localhost/oauth2redirect",
+  "scopes": [
+    "https://www.googleapis.com/auth/drive.readonly"
+  ]
+}

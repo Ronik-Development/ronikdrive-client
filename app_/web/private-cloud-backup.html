@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Private Cloud Backup with Client-Side Protection | RonikCloud</title>
+    <meta name="description" content="Back up selected folders with file content, names, and new folder labels encrypted on your device. Review RonikCloud recovery, sync, and privacy boundaries.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://ronikcloud.com/private-cloud-backup">
+    <link rel="stylesheet" href="/marketing.css">
+    <script src="/growth-attribution.js" defer></script>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <meta name="theme-color" content="#071329">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="RonikCloud">
+    <meta property="og:url" content="https://ronikcloud.com/private-cloud-backup">
+    <meta property="og:title" content="Private Cloud Backup with Client-Side Protection | RonikCloud">
+    <meta property="og:description" content="Protect selected working folders before their file content and private labels reach cloud storage.">
+    <meta property="og:image" content="https://ronikcloud.com/images/ronikcloud-social-card-1200x630.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="RonikCloud private cloud backup">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Private Cloud Backup with Client-Side Protection | RonikCloud">
+    <meta name="twitter:description" content="Protect selected working folders before their file content and private labels reach cloud storage.">
+    <meta name="twitter:image" content="https://ronikcloud.com/images/ronikcloud-social-card-1200x630.png">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What makes a RonikCloud folder backup private?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "RonikCloud encrypts protected file content, file names, and new folder labels on the device before storage. Selected backup paths and raw comparison fingerprints stay in an authenticated encrypted device cache, while remote comparisons use an account-keyed integrity tag. Operational metadata and network observations are not hidden from all service infrastructure."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can RonikCloud keep a selected folder up to date automatically?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Supported native builds can watch selected folders while RonikCloud is running, and supported release builds can continue through an enabled background worker. Scheduling depends on the build, device permissions, operating-system policy, and connectivity. A web browser cannot monitor a closed local folder."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does RonikCloud replace an independent backup?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. RonikCloud provides protected cloud storage, recovery tools for supported workspace records, and a user-held encryption recovery kit, but irreplaceable data should also have an independent backup stored separately."
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body data-growth-entry-page="private_cloud_backup">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href="/" aria-label="RonikCloud home">
+          <span>RonikCloud</span>
+        </a>
+        <nav class="site-nav" aria-label="Primary navigation"><a href="/resources">Resources</a><a href="/support">Support</a></nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero">
+        <div class="shell hero-grid">
+          <div>
+
+            <h1>Private cloud backup for working folders, with clear recovery limits.</h1>
+            <p class="hero-copy">
+              Choose the folders that matter to your work. RonikCloud protects
+              file content, file names, and new folder labels on your device
+              before storage, then uses privacy-preserving comparisons to find
+              work that needs uploading again.
+            </p>
+            <div class="actions">
+              <a class="button" href="/testers" data-growth-cta-placement="hero">Test private backup</a>
+              <a class="button secondary" href="/" data-growth-cta-placement="hero">See product and pricing</a>
+            </div>
+            <p class="beta-disclosure"><strong>Founding beta:</strong> RonikCloud has not been independently audited. Use non-critical copies and keep another backup.</p>
+          </div>
+          <aside class="hero-panel" aria-label="Private backup overview">
+            <p class="panel-kicker">Protection throughout the backup flow</p>
+            <ul class="proof-list">
+              <li>Protected file bytes and private labels are encrypted before storage.</li>
+              <li>Raw comparison fingerprints and selected paths remain in encrypted device storage.</li>
+              <li>Cloud objects use opaque identifiers instead of readable file paths.</li>
+              <li>Interrupted encrypted transfers can resume through a private local journal.</li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <div class="trust-strip" aria-label="Backup privacy principles">
+        <div class="shell trust-grid">
+          <div class="trust-item"><strong>Encrypt before storage</strong><span>Protection begins on your device</span></div>
+          <div class="trust-item"><strong>Private comparisons</strong><span>Raw fingerprints stay in local encrypted state</span></div>
+          <div class="trust-item"><strong>Opaque object paths</strong><span>No readable filename in new storage keys</span></div>
+          <div class="trust-item"><strong>User-held recovery</strong><span>Export an encrypted recovery kit</span></div>
+        </div>
+      </div>
+
+      <section class="section">
+        <div class="shell">
+          <div class="section-heading">
+
+            <h2>From a local working folder to protected cloud storage.</h2>
+            <p class="section-lead">
+              RonikCloud keeps encryption in the normal backup path, so privacy
+              does not depend on remembering to move sensitive work into a
+              separate vault first.
+            </p>
+          </div>
+          <div class="workflow">
+            <div>
+              <h3>Choose a folder</h3>
+              <p>Select a local folder, give its cloud destination a name, and decide whether its configured backup is enabled.</p>
+            </div>
+            <div>
+              <h3>Compare privately</h3>
+              <p>RonikCloud keeps raw file fingerprints locally and uses an account-keyed integrity tag for remote comparisons.</p>
+            </div>
+            <div>
+              <h3>Encrypt locally</h3>
+              <p>Changed file content and protected labels are encrypted on the device before the upload is committed.</p>
+            </div>
+            <div>
+              <h3>Continue safely</h3>
+              <p>A private transfer journal supports bounded retry and resume behavior when an encrypted upload is interrupted.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section soft">
+        <div class="shell split">
+          <div>
+
+            <h2>Protect the folders behind everyday client work.</h2>
+            <p class="section-lead">
+              Freelancers and small teams often keep active deliverables,
+              source material, and administration in ordinary folders. A
+              selected-folder workflow makes it easier to protect that work
+              without redesigning how every project is organized.
+            </p>
+          </div>
+          <ul class="feature-list">
+            <li><strong>Active project folders</strong>Keep changed files moving into encrypted storage while you continue using your usual local organization.</li>
+            <li><strong>Client deliverables</strong>Back up the working copy, then use a separate password-protected encrypted share when a deliverable is ready.</li>
+            <li><strong>Private local state</strong>Selected paths, raw comparison fingerprints, and transfer checkpoints stay in an authenticated, account-scoped encrypted cache.</li>
+            <li><strong>Bounded diagnostics</strong>Backup diagnostics use fixed events, fixed error categories, and temporary opaque references instead of filenames or absolute paths.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="shell">
+          <div class="section-heading">
+
+            <h2>Private content with explicit operational boundaries.</h2>
+            <p class="section-lead">
+              Client-side encryption protects the substance of your files and
+              private labels. Running a cloud service still requires a limited
+              amount of operational information.
+            </p>
+          </div>
+          <div class="card-grid">
+            <article class="card">
+              <div class="card-number" aria-hidden="true">01</div>
+              <h3>Protected on the device</h3>
+              <p>File content, file names, and new folder labels are encrypted before storage. Optional image previews are also produced on the device within bounded limits.</p>
+            </article>
+            <article class="card">
+              <div class="card-number" aria-hidden="true">02</div>
+              <h3>Limited service metadata</h3>
+              <p>The service still processes object sizes, upload times, opaque references, access relationships, keyed backup tags, storage routing, and account state.</p>
+            </article>
+            <article class="card">
+              <div class="card-number" aria-hidden="true">03</div>
+              <h3>Observable network activity</h3>
+              <p>Infrastructure providers can still observe connection data, timing, traffic volume, and ordinary service logs. Client-side encryption does not hide every event.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section soft">
+        <div class="shell split">
+          <div>
+
+            <h2>Keep the keys and the second copy you may need later.</h2>
+            <p class="section-lead">
+              Account Security can export the standard encryption key in a
+              recovery kit protected by a separate passphrase. RonikCloud does
+              not upload that kit or passphrase, so store them safely and apart.
+            </p>
+          </div>
+          <div>
+            <blockquote class="quote">
+              Trash and rewind tools can help restore supported workspace
+              records, but encrypted cloud storage is not a substitute for an
+              independent backup of irreplaceable data.
+            </blockquote>
+            <p class="note"><strong>Current availability:</strong> Folder watching and background behavior depend on the build, device permissions, operating-system policy, and connectivity. A browser cannot keep watching a local folder after it closes.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="shell">
+          <div class="section-heading">
+
+            <h2>Back up, deliver, and collaborate with narrower access.</h2>
+            <p class="section-lead">Explore the parts of RonikCloud that fit the way you store files and exchange them with clients or teammates.</p>
+          </div>
+          <div class="card-grid two">
+            <article class="card">
+              <h3><a href="/secure-cloud-storage">Understand secure storage</a></h3>
+              <p>See how encryption, recovery, device state, and metadata boundaries work across the wider workspace.</p>
+            </article>
+            <article class="card">
+              <h3><a href="/encrypted-file-sharing">Deliver encrypted files</a></h3>
+              <p>Create a separate password-protected copy with expiry, a request budget, and revocation controls.</p>
+            </article>
+            <article class="card">
+              <h3><a href="/for-freelancers">Build a freelancer workflow</a></h3>
+              <p>Connect private storage with client collection, delivery, comments, and review decisions.</p>
+            </article>
+            <article class="card">
+              <h3><a href="/for-small-teams">Protect small-team work</a></h3>
+              <p>Use encrypted shared folders, member-bound keys, roles, and deliberate invitations.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section soft">
+        <div class="shell">
+          <div class="section-heading">
+
+            <h2>Private cloud backup FAQ</h2>
+          </div>
+          <div class="faq">
+            <details>
+              <summary>What makes a RonikCloud folder backup private?</summary>
+              <p>RonikCloud encrypts protected file content, file names, and new folder labels on the device before storage. Selected backup paths and raw comparison fingerprints stay in an authenticated encrypted device cache, while remote comparisons use an account-keyed integrity tag. Operational metadata and network observations are not hidden from all service infrastructure.</p>
+            </details>
+            <details>
+              <summary>Can RonikCloud keep a selected folder up to date automatically?</summary>
+              <p>Supported native builds can watch selected folders while RonikCloud is running, and supported release builds can continue through an enabled background worker. Scheduling depends on the build, device permissions, operating-system policy, and connectivity. A web browser cannot monitor a closed local folder.</p>
+            </details>
+            <details>
+              <summary>Does RonikCloud replace an independent backup?</summary>
+              <p>No. RonikCloud provides protected cloud storage, recovery tools for supported workspace records, and a user-held encryption recovery kit, but irreplaceable data should also have an independent backup stored separately.</p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section class="section compact">
+        <div class="shell final-cta">
+
+          <h2>Give your working files a private cloud destination.</h2>
+          <p>Join the tester program and exercise a real backup workflow, or review the product and current pricing first.</p>
+          <p class="beta-disclosure"><strong>Founding beta:</strong> RonikCloud has not been independently audited. Use non-critical copies and keep another backup.</p>
+          <div class="actions">
+            <a class="button" href="/testers" data-growth-cta-placement="final">Test private backup</a>
+            <a class="button secondary" href="/" data-growth-cta-placement="final">See product and pricing</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell footer-inner">
+        <span>RonikCloud &mdash; private storage with clear boundaries.</span>
+        <nav class="footer-links" aria-label="Footer navigation">
+          <a href="/resources">Resources</a>
+          <a href="/download">Downloads</a>
+          <a href="/encrypted-file-request">File requests</a>
+          <a href="/press-kit">Press kit</a>
+          <a href="/support">Support</a>
+          <a href="/privacy">Privacy</a>
+          <a href="/terms">Terms</a>
+          <a href="/legal">Legal</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>

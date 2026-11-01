@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Encrypted File Requests for Client Uploads | RonikCloud</title>
+    <meta name="description" content="Request sensitive files through a focused upload link. RonikCloud protects the title on the owner's device and each file on the contributor's device.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://ronikcloud.com/encrypted-file-request">
+    <link rel="stylesheet" href="/marketing.css">
+    <script src="/growth-attribution.js" defer></script>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <meta name="theme-color" content="#071329">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="RonikCloud">
+    <meta property="og:url" content="https://ronikcloud.com/encrypted-file-request">
+    <meta property="og:title" content="Encrypted File Requests for Client Uploads | RonikCloud">
+    <meta property="og:description" content="Collect sensitive files without opening your workspace. Contributors encrypt each upload on their device before storage.">
+    <meta property="og:image" content="https://ronikcloud.com/images/ronikcloud-social-card-1200x630.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="RonikCloud encrypted file requests">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Encrypted File Requests for Client Uploads | RonikCloud">
+    <meta name="twitter:description" content="Collect sensitive files without opening your workspace. Contributors encrypt each upload on their device before storage.">
+    <meta name="twitter:image" content="https://ronikcloud.com/images/ronikcloud-social-card-1200x630.png">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Does a contributor need access to my RonikCloud workspace?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No workspace access is needed. The contributor opens a focused public file-request page with the complete private link, chooses a file, and submits it from the browser. Anyone holding that complete link can use the request while it remains active, so send it through a trusted channel."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What does an encrypted file request protect?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The owner encrypts the request title before creating the link. The contributor's browser encrypts the submitted filename, content type, and file body before upload. The private encryption key is carried in the URL fragment, which browsers do not send with the HTTP request, and in a separate owner-encrypted envelope."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How can I limit or close a file request?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A request has an expiry, a maximum file size, and a completed-upload limit. The owner can close it earlier. A temporarily reserved upload slot is released automatically after an abandoned attempt, so that temporary state is different from reaching the completed-upload limit."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does encryption hide every detail about a requested upload?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. RonikCloud still processes the owner relationship, opaque request, upload, and object identifiers, expiry, file-size and upload limits, counts, status, encrypted payload sizes, storage routing, and limited security records. Service infrastructure can also observe connection data, timing, and traffic volume."
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body data-growth-entry-page="encrypted_file_request">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href="/" aria-label="RonikCloud home">
+          <span>RonikCloud</span>
+        </a>
+        <nav class="site-nav" aria-label="Primary navigation"><a href="/resources">Resources</a><a href="/support">Support</a></nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero">
+        <div class="shell hero-grid">
+          <div>
+
+            <h1>Encrypted file requests without opening your workspace.</h1>
+            <p class="hero-copy">
+              Give a client, customer, or collaborator a focused browser link
+              for sending files back to you. RonikCloud protects the request
+              title on the owner's device, then protects each submitted
+              filename, content type, and file body on the contributor's
+              device before the upload reaches storage.
+            </p>
+            <div class="actions">
+              <a class="button" href="/testers" data-growth-cta-placement="hero">Test a file request</a>
+              <a class="button secondary" href="/" data-growth-cta-placement="hero">See product and pricing</a>
+            </div>
+            <p class="beta-disclosure"><strong>Founding beta:</strong> RonikCloud has not been independently audited. Use non-critical copies and keep another backup.</p>
+          </div>
+          <aside class="hero-panel" aria-label="File-request protection overview">
+            <p class="panel-kicker">A narrower way to collect files</p>
+            <ul class="proof-list">
+              <li>No access to your private workspace is required.</li>
+              <li>The owner protects the request title; the contributor protects the submitted file metadata and body.</li>
+              <li>Expiry, maximum file size, completed-upload limit, and owner-controlled closing narrow the request.</li>
+              <li>The contributor sees remaining submission slots and an approximate availability boundary.</li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <div class="trust-strip" aria-label="File-request principles">
+        <div class="shell trust-grid">
+          <div class="trust-item"><strong>Focused handoff</strong><span>A browser upload page, not workspace access</span></div>
+          <div class="trust-item"><strong>Local encryption</strong><span>Protection begins on the contributor's device</span></div>
+          <div class="trust-item"><strong>Private link key</strong><span>Carried in a URL fragment browsers do not send</span></div>
+          <div class="trust-item"><strong>Bounded collection</strong><span>Expiry, size, upload limit, and closing controls</span></div>
+        </div>
+      </div>
+
+      <section class="section">
+        <div class="shell">
+          <div class="section-heading">
+
+            <h2>From your request to a protected incoming file.</h2>
+            <p class="section-lead">
+              Use one purpose-built request instead of sharing a folder,
+              collecting an ordinary attachment, or granting broader access
+              than the contributor needs.
+            </p>
+          </div>
+          <div class="workflow">
+            <div>
+              <h3>Create the request</h3>
+              <p>Choose a private request title, expiry, maximum file size, and completed-upload limit for the collection task.</p>
+            </div>
+            <div>
+              <h3>Send the complete link</h3>
+              <p>Share the secret-bearing link through a trusted channel. The private URL fragment carries the key needed by the browser.</p>
+            </div>
+            <div>
+              <h3>Encrypt in the browser</h3>
+              <p>The contributor selects a file. Its name, content type, and body are protected on that device before upload.</p>
+            </div>
+            <div>
+              <h3>Review and close</h3>
+              <p>Receive the protected submission in your owner workflow, then close the request when collection is finished.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section soft">
+        <div class="shell split">
+          <div>
+
+            <h2>Collect the source material without inviting someone inside.</h2>
+            <p class="section-lead">
+              A file request fits the moment when another person needs to send
+              something sensitive, but does not need your folder tree,
+              workspace history, or member permissions.
+            </p>
+          </div>
+          <ul class="feature-list">
+            <li><strong>Professional documents</strong>Request signed agreements, project briefs, reports, or other source documents through one focused handoff.</li>
+            <li><strong>Creative source files</strong>Collect photographs, design assets, audio, or exported project files without turning the sender into a workspace member.</li>
+            <li><strong>Bookkeeping inputs</strong>Ask for invoices, receipts, or supporting records with a request that has a clear expiry and upload limit.</li>
+            <li><strong>Follow-up materials</strong>Open a separate bounded request when a client needs to supply another revision or missing input.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="shell">
+          <div class="section-heading">
+
+            <h2>A small upload page with explicit limits.</h2>
+            <p class="section-lead">
+              The public page is intentionally narrower than the owner's
+              workspace. It uses a limited metadata endpoint and does not read
+              the private request document directly.
+            </p>
+          </div>
+          <div class="card-grid">
+            <article class="card">
+              <div class="card-number" aria-hidden="true">01</div>
+              <h3>A protected request title</h3>
+              <p>The browser opens the encrypted title with the key from the private fragment. The public metadata response does not reveal the owner account.</p>
+            </article>
+            <article class="card">
+              <div class="card-number" aria-hidden="true">02</div>
+              <h3>Visible collection boundaries</h3>
+              <p>The page shows the maximum file size, remaining submission slots, and an approximate availability time derived from the coarse request expiry.</p>
+            </article>
+            <article class="card">
+              <div class="card-number" aria-hidden="true">03</div>
+              <h3>Fixed recovery guidance</h3>
+              <p>Invalid keys, closed requests, upload limits, and interrupted transfers use bounded guidance. Provider response bodies are not displayed to the contributor.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section soft">
+        <div class="shell split">
+          <div>
+
+            <h2>The private fragment protects content, not every trace of activity.</h2>
+            <p class="section-lead">
+              Encryption narrows what storage and the public page receive in
+              readable form. It does not make the account relationship,
+              request limits, network connection, or service operation
+              disappear.
+            </p>
+          </div>
+          <div>
+            <blockquote class="quote">
+              RonikCloud still processes the owner relationship, opaque
+              request, upload, and object identifiers, coarse expiry, file-size
+              and upload limits, counts, status, encrypted payload sizes,
+              storage routing, and limited security records. Service
+              infrastructure can observe connection data, timing, and traffic
+              volume.
+            </blockquote>
+            <p class="note">
+              <strong>Founding beta:</strong> This page describes the current
+              implementation. Start with a non-critical workflow, keep an
+              independent backup of irreplaceable files, verify the recipient
+              channel, and close a request when the collection is complete.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="shell">
+          <div class="section-heading">
+
+            <h2>Follow the file before and after collection.</h2>
+            <p class="section-lead">Explore RonikCloud's existing guides for storage, sharing, backup, client delivery, and small-workspace collaboration.</p>
+          </div>
+          <div class="card-grid two">
+            <article class="card">
+              <h3><a href="/secure-cloud-storage">Secure cloud storage</a></h3>
+              <p>Understand on-device protection, user-held recovery, private device state, and the metadata the service still needs.</p>
+            </article>
+            <article class="card">
+              <h3><a href="/encrypted-file-sharing">Encrypted file sharing</a></h3>
+              <p>Pair incoming file requests with password-protected encrypted share copies, expiry, request budgets, and revocation.</p>
+            </article>
+            <article class="card">
+              <h3><a href="/for-freelancers">RonikCloud for freelancers</a></h3>
+              <p>Connect client collection and protected delivery with practical comments and review status.</p>
+            </article>
+            <article class="card">
+              <h3><a href="/for-small-teams">RonikCloud for small teams</a></h3>
+              <p>Use roles and deliberate invitations for colleagues while keeping external contributors outside the workspace.</p>
+            </article>
+            <article class="card">
+              <h3><a href="/private-cloud-backup">Private cloud backup</a></h3>
+              <p>Learn where protected file copies fit alongside recovery kits, version history, and independent backups.</p>
+            </article>
+            <article class="card">
+              <h3><a href="/secure-client-file-portal">Secure client file portal</a></h3>
+              <p>See the broader client workflow for encrypted collection, protected delivery, comments, and review decisions.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section soft">
+        <div class="shell">
+          <div class="section-heading">
+
+            <h2>Encrypted file request FAQ</h2>
+          </div>
+          <div class="faq">
+            <details>
+              <summary>Does a contributor need access to my RonikCloud workspace?</summary>
+              <p>No workspace access is needed. The contributor opens a focused public file-request page with the complete private link, chooses a file, and submits it from the browser. Anyone holding that complete link can use the request while it remains active, so send it through a trusted channel.</p>
+            </details>
+            <details>
+              <summary>What does an encrypted file request protect?</summary>
+              <p>The owner encrypts the request title before creating the link. The contributor's browser encrypts the submitted filename, content type, and file body before upload. The private encryption key is carried in the URL fragment, which browsers do not send with the HTTP request, and in a separate owner-encrypted envelope.</p>
+            </details>
+            <details>
+              <summary>How can I limit or close a file request?</summary>
+              <p>A request has an expiry, a maximum file size, and a completed-upload limit. The owner can close it earlier. A temporarily reserved upload slot is released automatically after an abandoned attempt, so that temporary state is different from reaching the completed-upload limit.</p>
+            </details>
+            <details>
+              <summary>Does encryption hide every detail about a requested upload?</summary>
+              <p>No. RonikCloud still processes the owner relationship, opaque request, upload, and object identifiers, expiry, file-size and upload limits, counts, status, encrypted payload sizes, storage routing, and limited security records. Service infrastructure can also observe connection data, timing, and traffic volume.</p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section class="section compact">
+        <div class="shell final-cta">
+
+          <h2>Collect the file without opening the whole workspace.</h2>
+          <p>Join the tester program with a real client-shaped collection workflow, or review the product and current pricing first.</p>
+          <p class="beta-disclosure"><strong>Founding beta:</strong> RonikCloud has not been independently audited. Use non-critical copies and keep another backup.</p>
+          <div class="actions">
+            <a class="button" href="/testers" data-growth-cta-placement="final">Test a file request</a>
+            <a class="button secondary" href="/" data-growth-cta-placement="final">See product and pricing</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell footer-inner">
+        <span>RonikCloud &mdash; private storage with clear boundaries.</span>
+        <nav class="footer-links" aria-label="Footer navigation">
+          <a href="/resources">Resources</a>
+          <a href="/download">Downloads</a>
+          <a href="/press-kit">Press kit</a>
+          <a href="/support">Support</a>
+          <a href="/privacy">Privacy</a>
+          <a href="/terms">Terms</a>
+          <a href="/legal">Legal</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>

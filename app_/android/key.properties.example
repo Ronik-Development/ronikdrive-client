@@ -1,0 +1,6 @@
+# Copy this file to app_/android/key.properties for local signed release builds.
+# CI should prefer the ANDROID_KEYSTORE_* environment variables instead.
+storePassword=change-me
+keyPassword=change-me
+keyAlias=upload
+storeFile=../keystore/upload-keystore.jks

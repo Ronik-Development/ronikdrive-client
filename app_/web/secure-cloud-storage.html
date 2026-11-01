@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Secure Cloud Storage &amp; Client-Side Encryption | RonikCloud</title>
+    <meta name="description" content="Store protected files with client-side encryption for content and private labels. Review RonikCloud recovery, keys, and visible metadata.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://ronikcloud.com/secure-cloud-storage">
+    <link rel="stylesheet" href="/marketing.css">
+    <script src="/growth-attribution.js" defer></script>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <meta name="theme-color" content="#071329">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="RonikCloud">
+    <meta property="og:url" content="https://ronikcloud.com/secure-cloud-storage">
+    <meta property="og:title" content="Secure Cloud Storage &amp; Client-Side Encryption | RonikCloud">
+    <meta property="og:description" content="Protect file content and private workspace labels on your device before they are stored in the cloud.">
+    <meta property="og:image" content="https://ronikcloud.com/images/ronikcloud-social-card-1200x630.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="RonikCloud private cloud storage">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Secure Cloud Storage &amp; Client-Side Encryption | RonikCloud">
+    <meta name="twitter:description" content="Protect file content and private workspace labels on your device before they are stored in the cloud.">
+    <meta name="twitter:image" content="https://ronikcloud.com/images/ronikcloud-social-card-1200x630.png">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What does RonikCloud encrypt before upload?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The current RonikCloud client encrypts protected file content, file names, and new folder labels on the device before storage. App and browser traffic also uses HTTPS."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can client-side encryption hide all metadata?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. The service still needs operational metadata such as object sizes, upload times, opaque identifiers, access relationships, storage routing, subscription state, and limited security records. Network infrastructure can also observe connection data, timing, and traffic volume."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does encrypted recovery work?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Account Security can export the standard encryption key in an encrypted recovery kit protected by a separate passphrase. RonikCloud does not upload that kit or passphrase, so the user must store them safely and separately."
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body data-growth-entry-page="secure_cloud_storage">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href="/" aria-label="RonikCloud home">
+          <span>RonikCloud</span>
+        </a>
+        <nav class="site-nav" aria-label="Primary navigation"><a href="/resources">Resources</a><a href="/support">Support</a></nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero">
+        <div class="shell hero-grid">
+          <div>
+
+            <h1>Secure cloud storage that protects files before upload.</h1>
+            <p class="hero-copy">
+              RonikCloud encrypts protected file content, file names, and new
+              folder labels on your device before storage. You keep a practical
+              workspace for uploads, backup, sharing, and recovery without
+              treating privacy as an afterthought.
+            </p>
+            <div class="actions">
+              <a class="button" href="/testers" data-growth-cta-placement="hero">Test protected storage</a>
+              <a class="button secondary" href="/" data-growth-cta-placement="hero">See product and pricing</a>
+            </div>
+            <p class="beta-disclosure"><strong>Founding beta:</strong> RonikCloud has not been independently audited. Use non-critical copies and keep another backup.</p>
+          </div>
+          <aside class="hero-panel" aria-label="Encryption overview">
+            <p class="panel-kicker">Current protection profile</p>
+            <ul class="proof-list">
+              <li>File content is encrypted and authenticated before storage.</li>
+              <li>Protected file names and new folder labels use authenticated encryption.</li>
+              <li>A user-held recovery kit can restore the standard encryption key.</li>
+              <li>HTTPS protects app and browser traffic in transit.</li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <div class="trust-strip" aria-label="Product principles">
+        <div class="shell trust-grid">
+          <div class="trust-item"><strong>On-device protection</strong><span>Before protected bytes are stored</span></div>
+          <div class="trust-item"><strong>Authenticated encryption</strong><span>Altered ciphertext is rejected</span></div>
+          <div class="trust-item"><strong>User-held recovery</strong><span>An encrypted kit you store yourself</span></div>
+          <div class="trust-item"><strong>Clear boundaries</strong><span>Operational metadata is explained</span></div>
+        </div>
+      </div>
+
+      <section class="section">
+        <div class="shell">
+          <div class="section-heading">
+
+            <h2>Protection follows the file from the first upload.</h2>
+            <p class="section-lead">
+              Encryption is part of the workspace flow, not a separate vault
+              that you have to remember to use for a handful of sensitive files.
+            </p>
+          </div>
+          <div class="card-grid">
+            <article class="card">
+              <div class="card-number" aria-hidden="true">01</div>
+              <h3>Encrypt before storage</h3>
+              <p>
+                The client encrypts protected file bytes on your device and
+                authenticates them so modified ciphertext is rejected during
+                decryption. Protected names and new folder labels are encrypted too.
+              </p>
+            </article>
+            <article class="card">
+              <div class="card-number" aria-hidden="true">02</div>
+              <h3>Keep private device state private</h3>
+              <p>
+                Workspace listings, selected backup paths, interrupted-transfer
+                checkpoints, and supported offline files are kept in encrypted,
+                account-scoped device storage.
+              </p>
+            </article>
+            <article class="card">
+              <div class="card-number" aria-hidden="true">03</div>
+              <h3>Recover on your terms</h3>
+              <p>
+                Export the standard encryption key as an AES-256-GCM recovery kit
+                protected by a separate passphrase. Store the kit and passphrase
+                apart so one lost device does not become a lost archive.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section soft">
+        <div class="shell split">
+          <div>
+
+            <h2>Security you can operate, not just admire.</h2>
+            <p class="section-lead">
+              Good protection also needs clear recovery choices, deliberate
+              unlocks, and safe behavior when a network request is uncertain.
+            </p>
+          </div>
+          <ul class="feature-list">
+            <li><strong>Standard protection</strong>Derives the account encryption key for protected Personal data and supports a user-held recovery kit.</li>
+            <li><strong>Advanced secure mode</strong>Uses a separate passphrase for secure files and shards. RonikCloud cannot recreate a lost advanced-mode passphrase.</li>
+            <li><strong>Two-factor authentication</strong>Add an extra sign-in step from Account Security while keeping encryption recovery as a separate responsibility.</li>
+            <li><strong>Safe interrupted changes</strong>If a file operation loses its response, RonikCloud refreshes the authoritative workspace state before repeating it.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="shell split">
+          <div>
+
+            <h2>Client-side encryption does not make infrastructure invisible.</h2>
+            <p class="section-lead">
+              RonikCloud still needs limited operational information to store,
+              route, authorize, and bill for the service. Saying what remains is
+              part of making an informed security decision.
+            </p>
+          </div>
+          <div>
+            <blockquote class="quote">
+              The service can retain object size, upload time, opaque file and
+              folder references, parent-child and access relationships,
+              encrypted-name fields, storage-routing data, subscription state,
+              and limited security records. Connection timing, IP data, and
+              traffic volume cannot be hidden from all service infrastructure.
+            </blockquote>
+            <p class="note">
+              <strong>Security status:</strong> This page describes the current
+              implementation. It is not a claim of formal certification or an
+              independent security audit. Keep an independent backup of
+              irreplaceable data.
+            </p>
+            <p>
+              <a href="/security-whitepaper">Read the full security whitepaper</a>
+              for exact cryptographic parameters, key flows, service-visible
+              metadata, and implementation-specific limitations.
+            </p>
+            <p>
+              Compare the protection boundary in the
+              <a href="/client-side-vs-server-side-encryption">client-side versus server-side encryption guide</a>,
+              or use the <a href="/google-drive-client-side-encryption-alternative">Google Drive</a>
+              and <a href="/dropbox-encryption-alternative">Dropbox</a> evaluation guides.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section soft">
+        <div class="shell">
+          <div class="section-heading">
+
+            <h2>Secure cloud storage FAQ</h2>
+          </div>
+          <div class="faq">
+            <details>
+              <summary>What does RonikCloud encrypt before upload?</summary>
+              <p>Protected file content, file names, and new folder labels are encrypted on the device before storage. App and browser traffic also uses HTTPS.</p>
+            </details>
+            <details>
+              <summary>Can client-side encryption hide all metadata?</summary>
+              <p>No. Storage and account operations require limited metadata, including object sizes, upload times, opaque identifiers, access relationships, routing information, and subscription state. Network infrastructure can also observe connection data, timing, and traffic volume.</p>
+            </details>
+            <details>
+              <summary>How does encrypted recovery work?</summary>
+              <p>Account Security can export the standard encryption key in a recovery kit encrypted with a separate passphrase. RonikCloud does not upload the kit or its passphrase. Store them safely and separately because support cannot recreate either one.</p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section class="section compact">
+        <div class="shell final-cta">
+
+          <h2>Protect the files you already need to store and share.</h2>
+          <p>Join the tester program to try protected storage, or review the product and current pricing first.</p>
+          <p class="beta-disclosure"><strong>Founding beta:</strong> RonikCloud has not been independently audited. Use non-critical copies and keep another backup.</p>
+          <div class="actions">
+            <a class="button" href="/testers" data-growth-cta-placement="final">Test protected storage</a>
+            <a class="button secondary" href="/" data-growth-cta-placement="final">See product and pricing</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell footer-inner">
+        <span>RonikCloud &mdash; private storage with clear boundaries.</span>
+        <nav class="footer-links" aria-label="Footer navigation">
+          <a href="/resources">Resources</a>
+          <a href="/download">Downloads</a>
+          <a href="/encrypted-file-request">File requests</a>
+          <a href="/press-kit">Press kit</a>
+          <a href="/support">Support</a>
+          <a href="/privacy">Privacy</a>
+          <a href="/terms">Terms</a>
+          <a href="/legal">Legal</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>

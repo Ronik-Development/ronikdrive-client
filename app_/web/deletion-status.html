@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="referrer" content="no-referrer">
+  <title>Account deletion status · RonikCloud</title>
+  <style>
+    :root { color-scheme: light dark; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #172033; background: #f4f7fb; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    header { background: #10244c; padding: 18px 24px; }
+    header a { color: #fff; font-weight: 700; text-decoration: none; }
+    main { max-width: 70ch; padding: 32px 24px 64px; margin: auto; }
+    h1 { font-size: clamp(1.8rem, 5vw, 2.5rem); line-height: 1.2; margin: 16px 0 24px; text-wrap: balance; }
+    h2 { font-size: 1.25rem; margin: 32px 0 8px; }
+    p { line-height: 1.65; overflow-wrap: anywhere; }
+    a { color: #165ac7; text-underline-offset: .2em; }
+    button { font: inherit; font-weight: 600; min-height: 44px; padding: 12px 18px; border: 1px solid transparent; border-radius: 10px; color: #fff; background: #165ac7; cursor: pointer; }
+    button:hover { background: #124aa4; }
+    button:disabled { opacity: .65; cursor: wait; }
+    :focus-visible { outline: 3px solid #b45309; outline-offset: 4px; }
+    ::selection { color: #10244c; background: #c6dcff; }
+    @media (prefers-color-scheme: dark) {
+      :root { color: #e8edf7; background: #0c1422; }
+      a { color: #81b4ff; }
+      :focus-visible { outline-color: #ffbd75; }
+    }
+  </style>
+  <script src="/deletion-status.js" defer></script>
+<link rel="stylesheet" href="/site.css"></head>
+<body class="document-page">
+  <header><a href="/">RonikCloud</a></header>
+  <main>
+    <h1>Account deletion status</h1>
+    <p id="status" role="status" aria-live="polite">Open the private status link saved when you requested deletion.</p>
+    <button id="refresh" type="button" hidden>Check status again</button>
+    <noscript><p>Enable JavaScript to check your private receipt, or contact support for an update.</p></noscript>
+    <p><a href="/data-retention">Read the retention policy</a> for provider backups and records retained after closure.</p>
+    <h2>Keep this link private</h2>
+    <p>Anyone with your saved link can see whether your request is pending or complete. It does not show your name, files or billing details. Save the full link, including the part after the # symbol. Requesting another receipt in the app replaces the previous link.</p>
+    <p>If the link has expired or no longer works, email <a href="mailto:support@ronikcloud.com">support@ronikcloud.com</a>. Do not send your password or encryption key.</p>
+  </main>
+</body>
+</html>

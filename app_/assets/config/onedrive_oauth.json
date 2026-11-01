@@ -1,0 +1,8 @@
+{
+  "clientId": "",
+  "redirectUri": "https://localhost/oauth2redirect",
+  "scopes": [
+    "Files.Read",
+    "User.Read"
+  ]
+}

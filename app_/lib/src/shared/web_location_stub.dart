@@ -1,0 +1,1 @@
+void replaceCurrentUrl(String url) {}
